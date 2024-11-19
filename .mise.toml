@@ -1,0 +1,5 @@
+[tools]
+"spm:apple/swift-openapi-generator" = "1.4.0"
+
+[settings]
+experimental = true

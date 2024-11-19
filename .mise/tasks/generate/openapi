@@ -1,0 +1,9 @@
+#!/bin/bash
+# mise description="Generate Swift code of the Open API specification."
+
+set -e
+
+swift-openapi-generator generate \
+  --config $MISE_PROJECT_ROOT/Sources/EmbyClient/openapi-generator-config.yaml \
+  $MISE_PROJECT_ROOT/Sources/EmbyClient/openapi.json \
+  --output-directory $MISE_PROJECT_ROOT/Sources/EmbyClient/OpenAPI
