@@ -2,7 +2,7 @@
 import PackageDescription
 
 let package = Package(
-    name: "EmbyClient",
+    name: "EmbyAPI",
     platforms: [
         .macOS(.v10_15),
         .iOS(.v13),
@@ -10,7 +10,7 @@ let package = Package(
         .watchOS(.v6),
         .visionOS(.v1)
     ],
-    products: [.library(name: "EmbyClient", targets: ["EmbyClient"])],
+    products: [.library(name: "EmbyAPI", targets: ["EmbyAPI"])],
     dependencies: [
         .package(url: "https://github.com/apple/swift-openapi-runtime", from: "1.0.0"),
         .package(url: "https://github.com/apple/swift-openapi-urlsession", from: "1.0.0"),
@@ -25,7 +25,7 @@ let package = Package(
             ]
         ),
         .target(
-            name: "EmbyClient",
+            name: "EmbyAPI",
             dependencies: [
                 "AuthenticationMiddleware",
                 .product(name: "OpenAPIRuntime", package: "swift-openapi-runtime"),

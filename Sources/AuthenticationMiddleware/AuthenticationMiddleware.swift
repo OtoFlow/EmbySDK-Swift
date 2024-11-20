@@ -2,8 +2,8 @@ import OpenAPIRuntime
 import Foundation
 import HTTPTypes
 
-package struct AuthenticationMiddleware {
-    private let userID: String?
+package final class AuthenticationMiddleware {
+    package var userID: String?
     private let client: String
     private let device: String
     private let deviceID: String
@@ -39,12 +39,15 @@ extension AuthenticationMiddleware: ClientMiddleware {
 
     private func authHeaders() -> String {
         let fields = [
-            "DeviceId": deviceID,
-            "Device": device,
+            "UserId": userID,
             "Client": client,
-            "Version": version
+            "Version": version,
+            "Device": device,
+            "DeviceId": deviceID,
         ]
-            .map { "\($0.key)=\($0.value)" }
+            .compactMap { key, value in
+                value.map { "\(key)=\($0)" }
+            }
             .joined(separator: ", ")
         return "Emby \(fields)"
     }

@@ -38,7 +38,9 @@ public final class EmbyClient {
 
     public let configuration: Configuration
 
-    private let underlyingClient: any APIProtocol
+    let underlyingClient: any APIProtocol
+
+    private(set) var authenticationMiddleware: AuthenticationMiddleware?
 
     public private(set) var accessToken: String?
 
@@ -48,6 +50,14 @@ public final class EmbyClient {
     }
 
     public convenience init(configuration: Configuration, accessToken: String? = nil) {
+        let authenticationMiddleware = AuthenticationMiddleware(
+            userID: configuration.userID,
+            client: configuration.client,
+            device: configuration.deviceName,
+            deviceID: configuration.deviceID,
+            version: configuration.version
+        )
+
         self.init(
             configuration: configuration,
             underlyingClient: Client(
@@ -57,22 +67,18 @@ public final class EmbyClient {
                 ),
                 transport: URLSessionTransport(),
                 middlewares: [
-                    AuthenticationMiddleware(
-                        userID: configuration.userID,
-                        client: configuration.client,
-                        device: configuration.deviceName,
-                        deviceID: configuration.deviceID,
-                        version: configuration.version
-                    )
+                    authenticationMiddleware
                 ]
             )
         )
+
+        self.authenticationMiddleware = authenticationMiddleware
         self.accessToken = accessToken
     }
 }
 
-public extension EmbyClient {
-    func getPublicSystemInfo() async throws -> PublicSystemInfo {
+extension EmbyClient {
+    public func getPublicSystemInfo() async throws -> PublicSystemInfo {
         let response = try await underlyingClient.getSystemInfoPublic()
         let systemInfo = try response.ok.body.json
         return .init(
@@ -86,10 +92,11 @@ public extension EmbyClient {
         )
     }
 
-    func login(username: String, password: String) async throws -> AuthenticationResult {
+    public func login(username: String, password: String) async throws -> AuthenticationResult {
         let input = Operations.postUsersAuthenticatebyname.Input(
             headers: .init(
-                X_hyphen_Emby_hyphen_Authorization: ""
+                X_hyphen_Emby_hyphen_Authorization: "",
+                accept: [.init(contentType: .json)]
             ),
             body: .json(.init(Username: username, Pw: password))
         )
@@ -104,6 +111,7 @@ public extension EmbyClient {
             throw Error.dataMissing
         }
 
+        authenticationMiddleware?.userID = user.Id
         accessToken = result.AccessToken
 
         return .init(
