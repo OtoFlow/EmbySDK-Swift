@@ -42,8 +42,6 @@ public final class EmbyClient {
 
     private(set) var authenticationMiddleware: AuthenticationMiddleware?
 
-    public private(set) var accessToken: String?
-
     init(configuration: Configuration, underlyingClient: any APIProtocol) {
         self.configuration = configuration
         self.underlyingClient = underlyingClient
@@ -51,11 +49,12 @@ public final class EmbyClient {
 
     public convenience init(configuration: Configuration, accessToken: String? = nil) {
         let authenticationMiddleware = AuthenticationMiddleware(
-            userID: configuration.userID,
             client: configuration.client,
             device: configuration.deviceName,
             deviceID: configuration.deviceID,
-            version: configuration.version
+            version: configuration.version,
+            userID: configuration.userID,
+            accessToken: accessToken
         )
 
         self.init(
@@ -73,7 +72,6 @@ public final class EmbyClient {
         )
 
         self.authenticationMiddleware = authenticationMiddleware
-        self.accessToken = accessToken
     }
 }
 
@@ -112,7 +110,7 @@ extension EmbyClient {
         }
 
         authenticationMiddleware?.userID = user.Id
-        accessToken = result.AccessToken
+        authenticationMiddleware?.accessToken = result.AccessToken
 
         return .init(
             user: .init(
