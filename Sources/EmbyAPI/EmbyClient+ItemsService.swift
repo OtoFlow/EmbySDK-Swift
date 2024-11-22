@@ -11,6 +11,7 @@ extension EmbyClient {
     public func getItems(
         types: ItemType? = nil,
         genres: Genre? = nil,
+        filters: ItemFilter? = nil,
         sortBy: SortOrderType? = nil,
         sortOrder: SortOrder? = nil,
         startIndex: Int32? = nil,
@@ -29,6 +30,7 @@ extension EmbyClient {
                 SortOrder: sortOrder?.rawValue,
                 ParentId: parentID,
                 IncludeItemTypes: types?.rawValue,
+                Filters: filters?.rawValue,
                 SortBy: sortBy?.rawValue,
                 Genres: genres?.rawValue,
                 EnableUserData: enableUserData,

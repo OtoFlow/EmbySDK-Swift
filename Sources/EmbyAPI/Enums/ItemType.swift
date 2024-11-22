@@ -7,7 +7,7 @@
 
 import Foundation
 
-public enum ItemType: RawValueRepresentable {
+public enum ItemType: RawValueRepresentable, ExpressibleByArrayLiteral {
     case music
     case musicVideo
     case musicAlbum
