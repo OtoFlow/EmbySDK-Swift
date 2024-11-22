@@ -1,3 +1,9 @@
 generate:
   - types
   - client
+
+filter:
+  tags:
+  - SystemService
+  - UserService
+  - ItemsService

@@ -4,6 +4,6 @@
 set -e
 
 swift-openapi-generator generate \
-  --config $MISE_PROJECT_ROOT/Sources/EmbyClient/openapi-generator-config.yaml \
-  $MISE_PROJECT_ROOT/Sources/EmbyClient/openapi.json \
-  --output-directory $MISE_PROJECT_ROOT/Sources/EmbyClient/OpenAPI
+  --config $MISE_PROJECT_ROOT/Sources/EmbyAPI/openapi-generator-config.yaml \
+  $MISE_PROJECT_ROOT/Sources/EmbyAPI/openapi.json \
+  --output-directory $MISE_PROJECT_ROOT/Sources/EmbyAPI/OpenAPI
