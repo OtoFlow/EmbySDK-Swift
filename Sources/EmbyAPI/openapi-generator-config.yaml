@@ -8,6 +8,8 @@ filter:
   operations:
     # SystemService
     - getSystemInfoPublic
+    # LibraryService
+    - getLibraryMediafolders
     # UserService
     - postUsersAuthenticatebyname
     # UserLibraryService
@@ -16,3 +18,5 @@ filter:
     # ArtistsService
     - getArtists
     - getArtistsByName
+    # MusicGenresService
+    - getMusicgenres
