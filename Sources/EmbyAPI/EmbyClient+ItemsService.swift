@@ -41,35 +41,7 @@ extension EmbyClient {
         )
         let response = try await underlyingClient.getItems(input)
         let items = try response.ok.body.json.Items
-        return (items ?? [])
-            .map { item in
-                Item(
-                    id: item.Id!,
-                    name: item.Name ?? "",
-                    type: item._Type,
-                    overview: item.Overview,
-                    artists: (item.ArtistItems ?? []).map {
-                        .init(id: $0.Id!, name: $0.Name!)
-                    },
-                    imageTags: item.ImageTags?.additionalProperties,
-                    indexNumber: item.IndexNumber.map(Int.init),
-                    parentIndexNumber: item.ParentIndexNumber.map(Int.init),
-                    runTimeTicks: item.RunTimeTicks.map(Int.init),
-                    premiereDate: item.PremiereDate,
-                    album: item.Album,
-                    albumID: item.AlbumId,
-                    albumArtists: (item.AlbumArtists ?? []).map {
-                        .init(id: $0.Id!, name: $0.Name!)
-                    },
-                    userData: item.UserData.map { userData in
-                            .init(
-                                isFavorite: userData.IsFavorite ?? false,
-                                lastPlayedDate: userData.LastPlayedDate,
-                                playCount: userData.PlayCount.map(Int.init) ?? 0
-                            )
-                    }
-                )
-            }
+        return (items ?? []).map { .convertFromBaseItem($0) }
     }
 
     public func getItemsByUser(
@@ -108,34 +80,6 @@ extension EmbyClient {
         )
         let response = try await underlyingClient.getUsersByUseridItems(input)
         let items = try response.ok.body.json.Items
-        return (items ?? [])
-            .map { item in
-                Item(
-                    id: item.Id!,
-                    name: item.Name ?? "",
-                    type: item._Type,
-                    overview: item.Overview,
-                    artists: (item.ArtistItems ?? []).map {
-                        .init(id: $0.Id!, name: $0.Name!)
-                    },
-                    imageTags: item.ImageTags?.additionalProperties,
-                    indexNumber: item.IndexNumber.map(Int.init),
-                    parentIndexNumber: item.ParentIndexNumber.map(Int.init),
-                    runTimeTicks: item.RunTimeTicks.map(Int.init),
-                    premiereDate: item.PremiereDate,
-                    album: item.Album,
-                    albumID: item.AlbumId,
-                    albumArtists: (item.AlbumArtists ?? []).map {
-                        .init(id: $0.Id!, name: $0.Name!)
-                    },
-                    userData: item.UserData.map { userData in
-                            .init(
-                                isFavorite: userData.IsFavorite ?? false,
-                                lastPlayedDate: userData.LastPlayedDate,
-                                playCount: userData.PlayCount.map(Int.init) ?? 0
-                            )
-                    }
-                )
-            }
+        return (items ?? []).map { .convertFromBaseItem($0) }
     }
 }

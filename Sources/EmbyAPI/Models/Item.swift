@@ -12,7 +12,7 @@ public struct Item {
     public let name: String
     public let type: String?
     public let overview: String?
-    public let artists: [NameIdPair]
+    public let artists: [NameIdPair]?
     public let imageTags: [String: String]?
     public let indexNumber: Int?
     public let parentIndexNumber: Int?
@@ -20,6 +20,37 @@ public struct Item {
     public let premiereDate: Date?
     public let album: String?
     public let albumID: String?
-    public let albumArtists: [NameIdPair]
+    public let albumArtists: [NameIdPair]?
     public let userData: UserData?
+}
+
+extension Item {
+    static func convertFromBaseItem(_ item: Components.Schemas.BaseItemDto) -> Item {
+        Item(
+            id: item.Id!,
+            name: item.Name ?? "",
+            type: item._Type,
+            overview: item.Overview,
+            artists: item.ArtistItems?.map {
+                .init(id: $0.Id!, name: $0.Name!)
+            },
+            imageTags: item.ImageTags?.additionalProperties,
+            indexNumber: item.IndexNumber.map(Int.init),
+            parentIndexNumber: item.ParentIndexNumber.map(Int.init),
+            runTimeTicks: item.RunTimeTicks.map(Int.init),
+            premiereDate: item.PremiereDate,
+            album: item.Album,
+            albumID: item.AlbumId,
+            albumArtists: item.AlbumArtists?.map {
+                .init(id: $0.Id!, name: $0.Name!)
+            },
+            userData: item.UserData.map { userData in
+                    .init(
+                        isFavorite: userData.IsFavorite ?? false,
+                        lastPlayedDate: userData.LastPlayedDate,
+                        playCount: userData.PlayCount.map(Int.init)
+                    )
+            }
+        )
+    }
 }

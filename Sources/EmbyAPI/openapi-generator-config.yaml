@@ -8,3 +8,5 @@ filter:
   operations:
     - getSystemInfoPublic
     - postUsersAuthenticatebyname
+    - getArtists
+    - getArtistsByName

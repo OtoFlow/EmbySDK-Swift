@@ -11,6 +11,13 @@ import struct Foundation.Date
 #endif
 /// A type that performs HTTP operations defined by the OpenAPI document.
 internal protocol APIProtocol: Sendable {
+    /// Gets all artists from a given item, folder, or the entire library
+    ///
+    /// Requires authentication as user
+    ///
+    /// - Remark: HTTP `GET /Artists`.
+    /// - Remark: Generated from `#/paths//Artists/get(getArtists)`.
+    func getArtists(_ input: Operations.getArtists.Input) async throws -> Operations.getArtists.Output
     /// Gets items based on a query.
     ///
     /// Requires authentication as user
@@ -18,6 +25,13 @@ internal protocol APIProtocol: Sendable {
     /// - Remark: HTTP `GET /Items`.
     /// - Remark: Generated from `#/paths//Items/get(getItems)`.
     func getItems(_ input: Operations.getItems.Input) async throws -> Operations.getItems.Output
+    /// Gets an artist, by name
+    ///
+    /// Requires authentication as user
+    ///
+    /// - Remark: HTTP `GET /Artists/{Name}`.
+    /// - Remark: Generated from `#/paths//Artists/{Name}/get(getArtistsByName)`.
+    func getArtistsByName(_ input: Operations.getArtistsByName.Input) async throws -> Operations.getArtistsByName.Output
     /// Authenticates a user
     ///
     /// Authenticate a user by nane and password. A 200 status code indicates success, while anything in the 400 or 500 range indicates failure
@@ -52,6 +66,21 @@ internal protocol APIProtocol: Sendable {
 
 /// Convenience overloads for operation inputs.
 extension APIProtocol {
+    /// Gets all artists from a given item, folder, or the entire library
+    ///
+    /// Requires authentication as user
+    ///
+    /// - Remark: HTTP `GET /Artists`.
+    /// - Remark: Generated from `#/paths//Artists/get(getArtists)`.
+    internal func getArtists(
+        query: Operations.getArtists.Input.Query = .init(),
+        headers: Operations.getArtists.Input.Headers = .init()
+    ) async throws -> Operations.getArtists.Output {
+        try await getArtists(Operations.getArtists.Input(
+            query: query,
+            headers: headers
+        ))
+    }
     /// Gets items based on a query.
     ///
     /// Requires authentication as user
@@ -63,6 +92,23 @@ extension APIProtocol {
         headers: Operations.getItems.Input.Headers = .init()
     ) async throws -> Operations.getItems.Output {
         try await getItems(Operations.getItems.Input(
+            query: query,
+            headers: headers
+        ))
+    }
+    /// Gets an artist, by name
+    ///
+    /// Requires authentication as user
+    ///
+    /// - Remark: HTTP `GET /Artists/{Name}`.
+    /// - Remark: Generated from `#/paths//Artists/{Name}/get(getArtistsByName)`.
+    internal func getArtistsByName(
+        path: Operations.getArtistsByName.Input.Path,
+        query: Operations.getArtistsByName.Input.Query = .init(),
+        headers: Operations.getArtistsByName.Input.Headers = .init()
+    ) async throws -> Operations.getArtistsByName.Output {
+        try await getArtistsByName(Operations.getArtistsByName.Input(
+            path: path,
             query: query,
             headers: headers
         ))
@@ -6314,6 +6360,997 @@ internal enum Components {
 
 /// API operations, with input and output types, generated from `#/paths` in the OpenAPI document.
 internal enum Operations {
+    /// Gets all artists from a given item, folder, or the entire library
+    ///
+    /// Requires authentication as user
+    ///
+    /// - Remark: HTTP `GET /Artists`.
+    /// - Remark: Generated from `#/paths//Artists/get(getArtists)`.
+    internal enum getArtists {
+        internal static let id: Swift.String = "getArtists"
+        internal struct Input: Sendable, Hashable {
+            /// - Remark: Generated from `#/paths/Artists/GET/query`.
+            internal struct Query: Sendable, Hashable {
+                /// Artist or AlbumArtist
+                ///
+                /// - Remark: Generated from `#/paths/Artists/GET/query/ArtistType`.
+                internal var ArtistType: Swift.String?
+                /// Optional filter by maximum official rating (PG, PG-13, TV-MA, etc).
+                ///
+                /// - Remark: Generated from `#/paths/Artists/GET/query/MaxOfficialRating`.
+                internal var MaxOfficialRating: Swift.String?
+                /// Optional filter by items with theme songs.
+                ///
+                /// - Remark: Generated from `#/paths/Artists/GET/query/HasThemeSong`.
+                internal var HasThemeSong: Swift.Bool?
+                /// Optional filter by items with theme videos.
+                ///
+                /// - Remark: Generated from `#/paths/Artists/GET/query/HasThemeVideo`.
+                internal var HasThemeVideo: Swift.Bool?
+                /// Optional filter by items with subtitles.
+                ///
+                /// - Remark: Generated from `#/paths/Artists/GET/query/HasSubtitles`.
+                internal var HasSubtitles: Swift.Bool?
+                /// Optional filter by items with special features.
+                ///
+                /// - Remark: Generated from `#/paths/Artists/GET/query/HasSpecialFeature`.
+                internal var HasSpecialFeature: Swift.Bool?
+                /// Optional filter by items with trailers.
+                ///
+                /// - Remark: Generated from `#/paths/Artists/GET/query/HasTrailer`.
+                internal var HasTrailer: Swift.Bool?
+                /// Optional. Return items that are siblings of a supplied item.
+                ///
+                /// - Remark: Generated from `#/paths/Artists/GET/query/AdjacentTo`.
+                internal var AdjacentTo: Swift.String?
+                /// Optional filter by minimum index number.
+                ///
+                /// - Remark: Generated from `#/paths/Artists/GET/query/MinIndexNumber`.
+                internal var MinIndexNumber: Swift.Int32?
+                /// Optional. The minimum premiere date. Format = ISO
+                ///
+                /// - Remark: Generated from `#/paths/Artists/GET/query/MinStartDate`.
+                internal var MinStartDate: Swift.String?
+                /// Optional. The maximum premiere date. Format = ISO
+                ///
+                /// - Remark: Generated from `#/paths/Artists/GET/query/MaxStartDate`.
+                internal var MaxStartDate: Swift.String?
+                /// Optional. The minimum premiere date. Format = ISO
+                ///
+                /// - Remark: Generated from `#/paths/Artists/GET/query/MinEndDate`.
+                internal var MinEndDate: Swift.String?
+                /// Optional. The maximum premiere date. Format = ISO
+                ///
+                /// - Remark: Generated from `#/paths/Artists/GET/query/MaxEndDate`.
+                internal var MaxEndDate: Swift.String?
+                /// Optional filter by minimum number of game players.
+                ///
+                /// - Remark: Generated from `#/paths/Artists/GET/query/MinPlayers`.
+                internal var MinPlayers: Swift.Int32?
+                /// Optional filter by maximum number of game players.
+                ///
+                /// - Remark: Generated from `#/paths/Artists/GET/query/MaxPlayers`.
+                internal var MaxPlayers: Swift.Int32?
+                /// Optional filter by parent index number.
+                ///
+                /// - Remark: Generated from `#/paths/Artists/GET/query/ParentIndexNumber`.
+                internal var ParentIndexNumber: Swift.Int32?
+                /// Optional filter by items that have or do not have a parental rating
+                ///
+                /// - Remark: Generated from `#/paths/Artists/GET/query/HasParentalRating`.
+                internal var HasParentalRating: Swift.Bool?
+                /// Optional filter by items that are HD or not.
+                ///
+                /// - Remark: Generated from `#/paths/Artists/GET/query/IsHD`.
+                internal var IsHD: Swift.Bool?
+                /// Optional filter by items that are unaired episodes or not.
+                ///
+                /// - Remark: Generated from `#/paths/Artists/GET/query/IsUnaired`.
+                internal var IsUnaired: Swift.Bool?
+                /// Optional filter by minimum community rating.
+                ///
+                /// - Remark: Generated from `#/paths/Artists/GET/query/MinCommunityRating`.
+                internal var MinCommunityRating: Swift.Double?
+                /// Optional filter by minimum critic rating.
+                ///
+                /// - Remark: Generated from `#/paths/Artists/GET/query/MinCriticRating`.
+                internal var MinCriticRating: Swift.Double?
+                /// Gets all episodes that aired during a season, including specials.
+                ///
+                /// - Remark: Generated from `#/paths/Artists/GET/query/AiredDuringSeason`.
+                internal var AiredDuringSeason: Swift.Int32?
+                /// Optional. The minimum premiere date. Format = ISO
+                ///
+                /// - Remark: Generated from `#/paths/Artists/GET/query/MinPremiereDate`.
+                internal var MinPremiereDate: Swift.String?
+                /// Optional. The minimum premiere date. Format = ISO
+                ///
+                /// - Remark: Generated from `#/paths/Artists/GET/query/MinDateLastSaved`.
+                internal var MinDateLastSaved: Swift.String?
+                /// Optional. The minimum premiere date. Format = ISO
+                ///
+                /// - Remark: Generated from `#/paths/Artists/GET/query/MinDateLastSavedForUser`.
+                internal var MinDateLastSavedForUser: Swift.String?
+                /// Optional. The maximum premiere date. Format = ISO
+                ///
+                /// - Remark: Generated from `#/paths/Artists/GET/query/MaxPremiereDate`.
+                internal var MaxPremiereDate: Swift.String?
+                /// Optional filter by items that have an overview or not.
+                ///
+                /// - Remark: Generated from `#/paths/Artists/GET/query/HasOverview`.
+                internal var HasOverview: Swift.Bool?
+                /// Optional filter by items that have an imdb id or not.
+                ///
+                /// - Remark: Generated from `#/paths/Artists/GET/query/HasImdbId`.
+                internal var HasImdbId: Swift.Bool?
+                /// Optional filter by items that have a tmdb id or not.
+                ///
+                /// - Remark: Generated from `#/paths/Artists/GET/query/HasTmdbId`.
+                internal var HasTmdbId: Swift.Bool?
+                /// Optional filter by items that have a tvdb id or not.
+                ///
+                /// - Remark: Generated from `#/paths/Artists/GET/query/HasTvdbId`.
+                internal var HasTvdbId: Swift.Bool?
+                /// Optional. If specified, results will be filtered by exxcluding item ids. This allows multiple, comma delimeted.
+                ///
+                /// - Remark: Generated from `#/paths/Artists/GET/query/ExcludeItemIds`.
+                internal var ExcludeItemIds: Swift.String?
+                /// Optional. The record index to start at. All items with a lower index will be dropped from the results.
+                ///
+                /// - Remark: Generated from `#/paths/Artists/GET/query/StartIndex`.
+                internal var StartIndex: Swift.Int32?
+                /// Optional. The maximum number of records to return
+                ///
+                /// - Remark: Generated from `#/paths/Artists/GET/query/Limit`.
+                internal var Limit: Swift.Int32?
+                /// When searching within folders, this determines whether or not the search will be recursive. true/false
+                ///
+                /// - Remark: Generated from `#/paths/Artists/GET/query/Recursive`.
+                internal var Recursive: Swift.Bool?
+                /// Enter a search term to perform a search request
+                ///
+                /// - Remark: Generated from `#/paths/Artists/GET/query/SearchTerm`.
+                internal var SearchTerm: Swift.String?
+                /// Sort Order - Ascending,Descending
+                ///
+                /// - Remark: Generated from `#/paths/Artists/GET/query/SortOrder`.
+                internal var SortOrder: Swift.String?
+                /// Specify this to localize the search to a specific item or folder. Omit to use the root
+                ///
+                /// - Remark: Generated from `#/paths/Artists/GET/query/ParentId`.
+                internal var ParentId: Swift.String?
+                /// Optional. Specify additional fields of information to return in the output. This allows multiple, comma delimeted. Options: Budget, Chapters, DateCreated, Genres, HomePageUrl, IndexOptions, MediaStreams, Overview, ParentId, Path, People, ProviderIds, PrimaryImageAspectRatio, Revenue, SortName, Studios, Taglines
+                ///
+                /// - Remark: Generated from `#/paths/Artists/GET/query/Fields`.
+                internal var Fields: Swift.String?
+                /// Optional. If specified, results will be filtered based on item type. This allows multiple, comma delimeted.
+                ///
+                /// - Remark: Generated from `#/paths/Artists/GET/query/ExcludeItemTypes`.
+                internal var ExcludeItemTypes: Swift.String?
+                /// Optional. If specified, results will be filtered based on item type. This allows multiple, comma delimeted.
+                ///
+                /// - Remark: Generated from `#/paths/Artists/GET/query/IncludeItemTypes`.
+                internal var IncludeItemTypes: Swift.String?
+                /// Optional. If specified, result will be filtered to contain only items which match at least one of the specified IDs. Each provider ID must be in the form 'prov.id', e.g. 'imdb.tt123456'. This allows multiple, comma delimeted value pairs.
+                ///
+                /// - Remark: Generated from `#/paths/Artists/GET/query/AnyProviderIdEquals`.
+                internal var AnyProviderIdEquals: Swift.String?
+                /// Optional. Specify additional filters to apply. This allows multiple, comma delimeted. Options: IsFolder, IsNotFolder, IsUnplayed, IsPlayed, IsFavorite, IsResumable, Likes, Dislikes
+                ///
+                /// - Remark: Generated from `#/paths/Artists/GET/query/Filters`.
+                internal var Filters: Swift.String?
+                /// Optional filter by items that are marked as favorite, or not.
+                ///
+                /// - Remark: Generated from `#/paths/Artists/GET/query/IsFavorite`.
+                internal var IsFavorite: Swift.Bool?
+                /// Optional filter for movies.
+                ///
+                /// - Remark: Generated from `#/paths/Artists/GET/query/IsMovie`.
+                internal var IsMovie: Swift.Bool?
+                /// Optional filter for series.
+                ///
+                /// - Remark: Generated from `#/paths/Artists/GET/query/IsSeries`.
+                internal var IsSeries: Swift.Bool?
+                /// Optional filter for folders.
+                ///
+                /// - Remark: Generated from `#/paths/Artists/GET/query/IsFolder`.
+                internal var IsFolder: Swift.Bool?
+                /// Optional filter for news.
+                ///
+                /// - Remark: Generated from `#/paths/Artists/GET/query/IsNews`.
+                internal var IsNews: Swift.Bool?
+                /// Optional filter for kids.
+                ///
+                /// - Remark: Generated from `#/paths/Artists/GET/query/IsKids`.
+                internal var IsKids: Swift.Bool?
+                /// Optional filter for sports.
+                ///
+                /// - Remark: Generated from `#/paths/Artists/GET/query/IsSports`.
+                internal var IsSports: Swift.Bool?
+                /// Optional filter for IsNew.
+                ///
+                /// - Remark: Generated from `#/paths/Artists/GET/query/IsNew`.
+                internal var IsNew: Swift.Bool?
+                /// Optional filter for IsPremiere.
+                ///
+                /// - Remark: Generated from `#/paths/Artists/GET/query/IsPremiere`.
+                internal var IsPremiere: Swift.Bool?
+                /// Optional filter for IsNewOrPremiere.
+                ///
+                /// - Remark: Generated from `#/paths/Artists/GET/query/IsNewOrPremiere`.
+                internal var IsNewOrPremiere: Swift.Bool?
+                /// Optional filter for IsRepeat.
+                ///
+                /// - Remark: Generated from `#/paths/Artists/GET/query/IsRepeat`.
+                internal var IsRepeat: Swift.Bool?
+                /// ProjectToMedia
+                ///
+                /// - Remark: Generated from `#/paths/Artists/GET/query/ProjectToMedia`.
+                internal var ProjectToMedia: Swift.Bool?
+                /// Optional filter by MediaType. Allows multiple, comma delimited.
+                ///
+                /// - Remark: Generated from `#/paths/Artists/GET/query/MediaTypes`.
+                internal var MediaTypes: Swift.String?
+                /// Optional. If specified, results will be filtered based on those containing image types. This allows multiple, comma delimited.
+                ///
+                /// - Remark: Generated from `#/paths/Artists/GET/query/ImageTypes`.
+                internal var ImageTypes: Swift.String?
+                /// Optional. Specify one or more sort orders, comma delimeted. Options: Album, AlbumArtist, Artist, Budget, CommunityRating, CriticRating, DateCreated, DatePlayed, PlayCount, PremiereDate, ProductionYear, SortName, Random, Revenue, Runtime
+                ///
+                /// - Remark: Generated from `#/paths/Artists/GET/query/SortBy`.
+                internal var SortBy: Swift.String?
+                /// Optional filter by items that are played, or not.
+                ///
+                /// - Remark: Generated from `#/paths/Artists/GET/query/IsPlayed`.
+                internal var IsPlayed: Swift.Bool?
+                /// Optional. If specified, results will be filtered based on genre. This allows multiple, pipe delimeted.
+                ///
+                /// - Remark: Generated from `#/paths/Artists/GET/query/Genres`.
+                internal var Genres: Swift.String?
+                /// Optional. If specified, results will be filtered based on OfficialRating. This allows multiple, pipe delimeted.
+                ///
+                /// - Remark: Generated from `#/paths/Artists/GET/query/OfficialRatings`.
+                internal var OfficialRatings: Swift.String?
+                /// Optional. If specified, results will be filtered based on tag. This allows multiple, pipe delimeted.
+                ///
+                /// - Remark: Generated from `#/paths/Artists/GET/query/Tags`.
+                internal var Tags: Swift.String?
+                /// Optional. If specified, results will be filtered based on tag. This allows multiple, pipe delimeted.
+                ///
+                /// - Remark: Generated from `#/paths/Artists/GET/query/ExcludeTags`.
+                internal var ExcludeTags: Swift.String?
+                /// Optional. If specified, results will be filtered based on production year. This allows multiple, comma delimeted.
+                ///
+                /// - Remark: Generated from `#/paths/Artists/GET/query/Years`.
+                internal var Years: Swift.String?
+                /// Optional, include image information in output
+                ///
+                /// - Remark: Generated from `#/paths/Artists/GET/query/EnableImages`.
+                internal var EnableImages: Swift.Bool?
+                /// Optional, include user data
+                ///
+                /// - Remark: Generated from `#/paths/Artists/GET/query/EnableUserData`.
+                internal var EnableUserData: Swift.Bool?
+                /// Optional, the max number of images to return, per image type
+                ///
+                /// - Remark: Generated from `#/paths/Artists/GET/query/ImageTypeLimit`.
+                internal var ImageTypeLimit: Swift.Int32?
+                /// Optional. The image types to include in the output.
+                ///
+                /// - Remark: Generated from `#/paths/Artists/GET/query/EnableImageTypes`.
+                internal var EnableImageTypes: Swift.String?
+                /// Optional. If specified, results will be filtered to include only those containing the specified person.
+                ///
+                /// - Remark: Generated from `#/paths/Artists/GET/query/Person`.
+                internal var Person: Swift.String?
+                /// Optional. If specified, results will be filtered to include only those containing the specified person.
+                ///
+                /// - Remark: Generated from `#/paths/Artists/GET/query/PersonIds`.
+                internal var PersonIds: Swift.String?
+                /// Optional. If specified, along with Person, results will be filtered to include only those containing the specified person and PersonType. Allows multiple, comma-delimited
+                ///
+                /// - Remark: Generated from `#/paths/Artists/GET/query/PersonTypes`.
+                internal var PersonTypes: Swift.String?
+                /// Optional. If specified, results will be filtered based on studio. This allows multiple, pipe delimeted.
+                ///
+                /// - Remark: Generated from `#/paths/Artists/GET/query/Studios`.
+                internal var Studios: Swift.String?
+                /// Optional. If specified, results will be filtered based on studio. This allows multiple, pipe delimeted.
+                ///
+                /// - Remark: Generated from `#/paths/Artists/GET/query/StudioIds`.
+                internal var StudioIds: Swift.String?
+                /// Optional. If specified, results will be filtered based on artist. This allows multiple, pipe delimeted.
+                ///
+                /// - Remark: Generated from `#/paths/Artists/GET/query/Artists`.
+                internal var Artists: Swift.String?
+                /// Optional. If specified, results will be filtered based on artist. This allows multiple, pipe delimeted.
+                ///
+                /// - Remark: Generated from `#/paths/Artists/GET/query/ArtistIds`.
+                internal var ArtistIds: Swift.String?
+                /// Optional. If specified, results will be filtered based on album. This allows multiple, pipe delimeted.
+                ///
+                /// - Remark: Generated from `#/paths/Artists/GET/query/Albums`.
+                internal var Albums: Swift.String?
+                /// Optional. If specific items are needed, specify a list of item id's to retrieve. This allows multiple, comma delimited.
+                ///
+                /// - Remark: Generated from `#/paths/Artists/GET/query/Ids`.
+                internal var Ids: Swift.String?
+                /// Optional filter by VideoType (videofile, dvd, bluray, iso). Allows multiple, comma delimeted.
+                ///
+                /// - Remark: Generated from `#/paths/Artists/GET/query/VideoTypes`.
+                internal var VideoTypes: Swift.String?
+                /// Optional filter by Container. Allows multiple, comma delimeted.
+                ///
+                /// - Remark: Generated from `#/paths/Artists/GET/query/Containers`.
+                internal var Containers: Swift.String?
+                /// Optional filter by AudioCodec. Allows multiple, comma delimeted.
+                ///
+                /// - Remark: Generated from `#/paths/Artists/GET/query/AudioCodecs`.
+                internal var AudioCodecs: Swift.String?
+                /// Optional filter by AudioLayout. Allows multiple, comma delimeted.
+                ///
+                /// - Remark: Generated from `#/paths/Artists/GET/query/AudioLayouts`.
+                internal var AudioLayouts: Swift.String?
+                /// Optional filter by VideoCodec. Allows multiple, comma delimeted.
+                ///
+                /// - Remark: Generated from `#/paths/Artists/GET/query/VideoCodecs`.
+                internal var VideoCodecs: Swift.String?
+                /// Optional filter by ExtendedVideoType. Allows multiple, comma delimeted.
+                ///
+                /// - Remark: Generated from `#/paths/Artists/GET/query/ExtendedVideoTypes`.
+                internal var ExtendedVideoTypes: Swift.String?
+                /// Optional filter by SubtitleCodec. Allows multiple, comma delimeted.
+                ///
+                /// - Remark: Generated from `#/paths/Artists/GET/query/SubtitleCodecs`.
+                internal var SubtitleCodecs: Swift.String?
+                /// Optional filter by Path.
+                ///
+                /// - Remark: Generated from `#/paths/Artists/GET/query/Path`.
+                internal var Path: Swift.String?
+                /// User Id
+                ///
+                /// - Remark: Generated from `#/paths/Artists/GET/query/UserId`.
+                internal var UserId: Swift.String?
+                /// Optional filter by minimum official rating (PG, PG-13, TV-MA, etc).
+                ///
+                /// - Remark: Generated from `#/paths/Artists/GET/query/MinOfficialRating`.
+                internal var MinOfficialRating: Swift.String?
+                /// Optional filter by items that are locked.
+                ///
+                /// - Remark: Generated from `#/paths/Artists/GET/query/IsLocked`.
+                internal var IsLocked: Swift.Bool?
+                /// Optional filter by items that are placeholders
+                ///
+                /// - Remark: Generated from `#/paths/Artists/GET/query/IsPlaceHolder`.
+                internal var IsPlaceHolder: Swift.Bool?
+                /// Optional filter by items that have official ratings
+                ///
+                /// - Remark: Generated from `#/paths/Artists/GET/query/HasOfficialRating`.
+                internal var HasOfficialRating: Swift.Bool?
+                /// Whether or not to hide items behind their boxsets.
+                ///
+                /// - Remark: Generated from `#/paths/Artists/GET/query/GroupItemsIntoCollections`.
+                internal var GroupItemsIntoCollections: Swift.Bool?
+                /// Optional filter by items that are 3D, or not.
+                ///
+                /// - Remark: Generated from `#/paths/Artists/GET/query/Is3D`.
+                internal var Is3D: Swift.Bool?
+                /// Optional filter by Series Status. Allows multiple, comma delimeted.
+                ///
+                /// - Remark: Generated from `#/paths/Artists/GET/query/SeriesStatus`.
+                internal var SeriesStatus: Swift.String?
+                /// Optional filter by items whose name is sorted equally or greater than a given input string.
+                ///
+                /// - Remark: Generated from `#/paths/Artists/GET/query/NameStartsWithOrGreater`.
+                internal var NameStartsWithOrGreater: Swift.String?
+                /// Optional filter by items whose name is sorted equally or greater than a given input string.
+                ///
+                /// - Remark: Generated from `#/paths/Artists/GET/query/ArtistStartsWithOrGreater`.
+                internal var ArtistStartsWithOrGreater: Swift.String?
+                /// Optional filter by items whose name is sorted equally or greater than a given input string.
+                ///
+                /// - Remark: Generated from `#/paths/Artists/GET/query/AlbumArtistStartsWithOrGreater`.
+                internal var AlbumArtistStartsWithOrGreater: Swift.String?
+                /// Optional filter by items whose name is sorted equally than a given input string.
+                ///
+                /// - Remark: Generated from `#/paths/Artists/GET/query/NameStartsWith`.
+                internal var NameStartsWith: Swift.String?
+                /// Optional filter by items whose name is equally or lesser than a given input string.
+                ///
+                /// - Remark: Generated from `#/paths/Artists/GET/query/NameLessThan`.
+                internal var NameLessThan: Swift.String?
+                /// Creates a new `Query`.
+                ///
+                /// - Parameters:
+                ///   - ArtistType: Artist or AlbumArtist
+                ///   - MaxOfficialRating: Optional filter by maximum official rating (PG, PG-13, TV-MA, etc).
+                ///   - HasThemeSong: Optional filter by items with theme songs.
+                ///   - HasThemeVideo: Optional filter by items with theme videos.
+                ///   - HasSubtitles: Optional filter by items with subtitles.
+                ///   - HasSpecialFeature: Optional filter by items with special features.
+                ///   - HasTrailer: Optional filter by items with trailers.
+                ///   - AdjacentTo: Optional. Return items that are siblings of a supplied item.
+                ///   - MinIndexNumber: Optional filter by minimum index number.
+                ///   - MinStartDate: Optional. The minimum premiere date. Format = ISO
+                ///   - MaxStartDate: Optional. The maximum premiere date. Format = ISO
+                ///   - MinEndDate: Optional. The minimum premiere date. Format = ISO
+                ///   - MaxEndDate: Optional. The maximum premiere date. Format = ISO
+                ///   - MinPlayers: Optional filter by minimum number of game players.
+                ///   - MaxPlayers: Optional filter by maximum number of game players.
+                ///   - ParentIndexNumber: Optional filter by parent index number.
+                ///   - HasParentalRating: Optional filter by items that have or do not have a parental rating
+                ///   - IsHD: Optional filter by items that are HD or not.
+                ///   - IsUnaired: Optional filter by items that are unaired episodes or not.
+                ///   - MinCommunityRating: Optional filter by minimum community rating.
+                ///   - MinCriticRating: Optional filter by minimum critic rating.
+                ///   - AiredDuringSeason: Gets all episodes that aired during a season, including specials.
+                ///   - MinPremiereDate: Optional. The minimum premiere date. Format = ISO
+                ///   - MinDateLastSaved: Optional. The minimum premiere date. Format = ISO
+                ///   - MinDateLastSavedForUser: Optional. The minimum premiere date. Format = ISO
+                ///   - MaxPremiereDate: Optional. The maximum premiere date. Format = ISO
+                ///   - HasOverview: Optional filter by items that have an overview or not.
+                ///   - HasImdbId: Optional filter by items that have an imdb id or not.
+                ///   - HasTmdbId: Optional filter by items that have a tmdb id or not.
+                ///   - HasTvdbId: Optional filter by items that have a tvdb id or not.
+                ///   - ExcludeItemIds: Optional. If specified, results will be filtered by exxcluding item ids. This allows multiple, comma delimeted.
+                ///   - StartIndex: Optional. The record index to start at. All items with a lower index will be dropped from the results.
+                ///   - Limit: Optional. The maximum number of records to return
+                ///   - Recursive: When searching within folders, this determines whether or not the search will be recursive. true/false
+                ///   - SearchTerm: Enter a search term to perform a search request
+                ///   - SortOrder: Sort Order - Ascending,Descending
+                ///   - ParentId: Specify this to localize the search to a specific item or folder. Omit to use the root
+                ///   - Fields: Optional. Specify additional fields of information to return in the output. This allows multiple, comma delimeted. Options: Budget, Chapters, DateCreated, Genres, HomePageUrl, IndexOptions, MediaStreams, Overview, ParentId, Path, People, ProviderIds, PrimaryImageAspectRatio, Revenue, SortName, Studios, Taglines
+                ///   - ExcludeItemTypes: Optional. If specified, results will be filtered based on item type. This allows multiple, comma delimeted.
+                ///   - IncludeItemTypes: Optional. If specified, results will be filtered based on item type. This allows multiple, comma delimeted.
+                ///   - AnyProviderIdEquals: Optional. If specified, result will be filtered to contain only items which match at least one of the specified IDs. Each provider ID must be in the form 'prov.id', e.g. 'imdb.tt123456'. This allows multiple, comma delimeted value pairs.
+                ///   - Filters: Optional. Specify additional filters to apply. This allows multiple, comma delimeted. Options: IsFolder, IsNotFolder, IsUnplayed, IsPlayed, IsFavorite, IsResumable, Likes, Dislikes
+                ///   - IsFavorite: Optional filter by items that are marked as favorite, or not.
+                ///   - IsMovie: Optional filter for movies.
+                ///   - IsSeries: Optional filter for series.
+                ///   - IsFolder: Optional filter for folders.
+                ///   - IsNews: Optional filter for news.
+                ///   - IsKids: Optional filter for kids.
+                ///   - IsSports: Optional filter for sports.
+                ///   - IsNew: Optional filter for IsNew.
+                ///   - IsPremiere: Optional filter for IsPremiere.
+                ///   - IsNewOrPremiere: Optional filter for IsNewOrPremiere.
+                ///   - IsRepeat: Optional filter for IsRepeat.
+                ///   - ProjectToMedia: ProjectToMedia
+                ///   - MediaTypes: Optional filter by MediaType. Allows multiple, comma delimited.
+                ///   - ImageTypes: Optional. If specified, results will be filtered based on those containing image types. This allows multiple, comma delimited.
+                ///   - SortBy: Optional. Specify one or more sort orders, comma delimeted. Options: Album, AlbumArtist, Artist, Budget, CommunityRating, CriticRating, DateCreated, DatePlayed, PlayCount, PremiereDate, ProductionYear, SortName, Random, Revenue, Runtime
+                ///   - IsPlayed: Optional filter by items that are played, or not.
+                ///   - Genres: Optional. If specified, results will be filtered based on genre. This allows multiple, pipe delimeted.
+                ///   - OfficialRatings: Optional. If specified, results will be filtered based on OfficialRating. This allows multiple, pipe delimeted.
+                ///   - Tags: Optional. If specified, results will be filtered based on tag. This allows multiple, pipe delimeted.
+                ///   - ExcludeTags: Optional. If specified, results will be filtered based on tag. This allows multiple, pipe delimeted.
+                ///   - Years: Optional. If specified, results will be filtered based on production year. This allows multiple, comma delimeted.
+                ///   - EnableImages: Optional, include image information in output
+                ///   - EnableUserData: Optional, include user data
+                ///   - ImageTypeLimit: Optional, the max number of images to return, per image type
+                ///   - EnableImageTypes: Optional. The image types to include in the output.
+                ///   - Person: Optional. If specified, results will be filtered to include only those containing the specified person.
+                ///   - PersonIds: Optional. If specified, results will be filtered to include only those containing the specified person.
+                ///   - PersonTypes: Optional. If specified, along with Person, results will be filtered to include only those containing the specified person and PersonType. Allows multiple, comma-delimited
+                ///   - Studios: Optional. If specified, results will be filtered based on studio. This allows multiple, pipe delimeted.
+                ///   - StudioIds: Optional. If specified, results will be filtered based on studio. This allows multiple, pipe delimeted.
+                ///   - Artists: Optional. If specified, results will be filtered based on artist. This allows multiple, pipe delimeted.
+                ///   - ArtistIds: Optional. If specified, results will be filtered based on artist. This allows multiple, pipe delimeted.
+                ///   - Albums: Optional. If specified, results will be filtered based on album. This allows multiple, pipe delimeted.
+                ///   - Ids: Optional. If specific items are needed, specify a list of item id's to retrieve. This allows multiple, comma delimited.
+                ///   - VideoTypes: Optional filter by VideoType (videofile, dvd, bluray, iso). Allows multiple, comma delimeted.
+                ///   - Containers: Optional filter by Container. Allows multiple, comma delimeted.
+                ///   - AudioCodecs: Optional filter by AudioCodec. Allows multiple, comma delimeted.
+                ///   - AudioLayouts: Optional filter by AudioLayout. Allows multiple, comma delimeted.
+                ///   - VideoCodecs: Optional filter by VideoCodec. Allows multiple, comma delimeted.
+                ///   - ExtendedVideoTypes: Optional filter by ExtendedVideoType. Allows multiple, comma delimeted.
+                ///   - SubtitleCodecs: Optional filter by SubtitleCodec. Allows multiple, comma delimeted.
+                ///   - Path: Optional filter by Path.
+                ///   - UserId: User Id
+                ///   - MinOfficialRating: Optional filter by minimum official rating (PG, PG-13, TV-MA, etc).
+                ///   - IsLocked: Optional filter by items that are locked.
+                ///   - IsPlaceHolder: Optional filter by items that are placeholders
+                ///   - HasOfficialRating: Optional filter by items that have official ratings
+                ///   - GroupItemsIntoCollections: Whether or not to hide items behind their boxsets.
+                ///   - Is3D: Optional filter by items that are 3D, or not.
+                ///   - SeriesStatus: Optional filter by Series Status. Allows multiple, comma delimeted.
+                ///   - NameStartsWithOrGreater: Optional filter by items whose name is sorted equally or greater than a given input string.
+                ///   - ArtistStartsWithOrGreater: Optional filter by items whose name is sorted equally or greater than a given input string.
+                ///   - AlbumArtistStartsWithOrGreater: Optional filter by items whose name is sorted equally or greater than a given input string.
+                ///   - NameStartsWith: Optional filter by items whose name is sorted equally than a given input string.
+                ///   - NameLessThan: Optional filter by items whose name is equally or lesser than a given input string.
+                internal init(
+                    ArtistType: Swift.String? = nil,
+                    MaxOfficialRating: Swift.String? = nil,
+                    HasThemeSong: Swift.Bool? = nil,
+                    HasThemeVideo: Swift.Bool? = nil,
+                    HasSubtitles: Swift.Bool? = nil,
+                    HasSpecialFeature: Swift.Bool? = nil,
+                    HasTrailer: Swift.Bool? = nil,
+                    AdjacentTo: Swift.String? = nil,
+                    MinIndexNumber: Swift.Int32? = nil,
+                    MinStartDate: Swift.String? = nil,
+                    MaxStartDate: Swift.String? = nil,
+                    MinEndDate: Swift.String? = nil,
+                    MaxEndDate: Swift.String? = nil,
+                    MinPlayers: Swift.Int32? = nil,
+                    MaxPlayers: Swift.Int32? = nil,
+                    ParentIndexNumber: Swift.Int32? = nil,
+                    HasParentalRating: Swift.Bool? = nil,
+                    IsHD: Swift.Bool? = nil,
+                    IsUnaired: Swift.Bool? = nil,
+                    MinCommunityRating: Swift.Double? = nil,
+                    MinCriticRating: Swift.Double? = nil,
+                    AiredDuringSeason: Swift.Int32? = nil,
+                    MinPremiereDate: Swift.String? = nil,
+                    MinDateLastSaved: Swift.String? = nil,
+                    MinDateLastSavedForUser: Swift.String? = nil,
+                    MaxPremiereDate: Swift.String? = nil,
+                    HasOverview: Swift.Bool? = nil,
+                    HasImdbId: Swift.Bool? = nil,
+                    HasTmdbId: Swift.Bool? = nil,
+                    HasTvdbId: Swift.Bool? = nil,
+                    ExcludeItemIds: Swift.String? = nil,
+                    StartIndex: Swift.Int32? = nil,
+                    Limit: Swift.Int32? = nil,
+                    Recursive: Swift.Bool? = nil,
+                    SearchTerm: Swift.String? = nil,
+                    SortOrder: Swift.String? = nil,
+                    ParentId: Swift.String? = nil,
+                    Fields: Swift.String? = nil,
+                    ExcludeItemTypes: Swift.String? = nil,
+                    IncludeItemTypes: Swift.String? = nil,
+                    AnyProviderIdEquals: Swift.String? = nil,
+                    Filters: Swift.String? = nil,
+                    IsFavorite: Swift.Bool? = nil,
+                    IsMovie: Swift.Bool? = nil,
+                    IsSeries: Swift.Bool? = nil,
+                    IsFolder: Swift.Bool? = nil,
+                    IsNews: Swift.Bool? = nil,
+                    IsKids: Swift.Bool? = nil,
+                    IsSports: Swift.Bool? = nil,
+                    IsNew: Swift.Bool? = nil,
+                    IsPremiere: Swift.Bool? = nil,
+                    IsNewOrPremiere: Swift.Bool? = nil,
+                    IsRepeat: Swift.Bool? = nil,
+                    ProjectToMedia: Swift.Bool? = nil,
+                    MediaTypes: Swift.String? = nil,
+                    ImageTypes: Swift.String? = nil,
+                    SortBy: Swift.String? = nil,
+                    IsPlayed: Swift.Bool? = nil,
+                    Genres: Swift.String? = nil,
+                    OfficialRatings: Swift.String? = nil,
+                    Tags: Swift.String? = nil,
+                    ExcludeTags: Swift.String? = nil,
+                    Years: Swift.String? = nil,
+                    EnableImages: Swift.Bool? = nil,
+                    EnableUserData: Swift.Bool? = nil,
+                    ImageTypeLimit: Swift.Int32? = nil,
+                    EnableImageTypes: Swift.String? = nil,
+                    Person: Swift.String? = nil,
+                    PersonIds: Swift.String? = nil,
+                    PersonTypes: Swift.String? = nil,
+                    Studios: Swift.String? = nil,
+                    StudioIds: Swift.String? = nil,
+                    Artists: Swift.String? = nil,
+                    ArtistIds: Swift.String? = nil,
+                    Albums: Swift.String? = nil,
+                    Ids: Swift.String? = nil,
+                    VideoTypes: Swift.String? = nil,
+                    Containers: Swift.String? = nil,
+                    AudioCodecs: Swift.String? = nil,
+                    AudioLayouts: Swift.String? = nil,
+                    VideoCodecs: Swift.String? = nil,
+                    ExtendedVideoTypes: Swift.String? = nil,
+                    SubtitleCodecs: Swift.String? = nil,
+                    Path: Swift.String? = nil,
+                    UserId: Swift.String? = nil,
+                    MinOfficialRating: Swift.String? = nil,
+                    IsLocked: Swift.Bool? = nil,
+                    IsPlaceHolder: Swift.Bool? = nil,
+                    HasOfficialRating: Swift.Bool? = nil,
+                    GroupItemsIntoCollections: Swift.Bool? = nil,
+                    Is3D: Swift.Bool? = nil,
+                    SeriesStatus: Swift.String? = nil,
+                    NameStartsWithOrGreater: Swift.String? = nil,
+                    ArtistStartsWithOrGreater: Swift.String? = nil,
+                    AlbumArtistStartsWithOrGreater: Swift.String? = nil,
+                    NameStartsWith: Swift.String? = nil,
+                    NameLessThan: Swift.String? = nil
+                ) {
+                    self.ArtistType = ArtistType
+                    self.MaxOfficialRating = MaxOfficialRating
+                    self.HasThemeSong = HasThemeSong
+                    self.HasThemeVideo = HasThemeVideo
+                    self.HasSubtitles = HasSubtitles
+                    self.HasSpecialFeature = HasSpecialFeature
+                    self.HasTrailer = HasTrailer
+                    self.AdjacentTo = AdjacentTo
+                    self.MinIndexNumber = MinIndexNumber
+                    self.MinStartDate = MinStartDate
+                    self.MaxStartDate = MaxStartDate
+                    self.MinEndDate = MinEndDate
+                    self.MaxEndDate = MaxEndDate
+                    self.MinPlayers = MinPlayers
+                    self.MaxPlayers = MaxPlayers
+                    self.ParentIndexNumber = ParentIndexNumber
+                    self.HasParentalRating = HasParentalRating
+                    self.IsHD = IsHD
+                    self.IsUnaired = IsUnaired
+                    self.MinCommunityRating = MinCommunityRating
+                    self.MinCriticRating = MinCriticRating
+                    self.AiredDuringSeason = AiredDuringSeason
+                    self.MinPremiereDate = MinPremiereDate
+                    self.MinDateLastSaved = MinDateLastSaved
+                    self.MinDateLastSavedForUser = MinDateLastSavedForUser
+                    self.MaxPremiereDate = MaxPremiereDate
+                    self.HasOverview = HasOverview
+                    self.HasImdbId = HasImdbId
+                    self.HasTmdbId = HasTmdbId
+                    self.HasTvdbId = HasTvdbId
+                    self.ExcludeItemIds = ExcludeItemIds
+                    self.StartIndex = StartIndex
+                    self.Limit = Limit
+                    self.Recursive = Recursive
+                    self.SearchTerm = SearchTerm
+                    self.SortOrder = SortOrder
+                    self.ParentId = ParentId
+                    self.Fields = Fields
+                    self.ExcludeItemTypes = ExcludeItemTypes
+                    self.IncludeItemTypes = IncludeItemTypes
+                    self.AnyProviderIdEquals = AnyProviderIdEquals
+                    self.Filters = Filters
+                    self.IsFavorite = IsFavorite
+                    self.IsMovie = IsMovie
+                    self.IsSeries = IsSeries
+                    self.IsFolder = IsFolder
+                    self.IsNews = IsNews
+                    self.IsKids = IsKids
+                    self.IsSports = IsSports
+                    self.IsNew = IsNew
+                    self.IsPremiere = IsPremiere
+                    self.IsNewOrPremiere = IsNewOrPremiere
+                    self.IsRepeat = IsRepeat
+                    self.ProjectToMedia = ProjectToMedia
+                    self.MediaTypes = MediaTypes
+                    self.ImageTypes = ImageTypes
+                    self.SortBy = SortBy
+                    self.IsPlayed = IsPlayed
+                    self.Genres = Genres
+                    self.OfficialRatings = OfficialRatings
+                    self.Tags = Tags
+                    self.ExcludeTags = ExcludeTags
+                    self.Years = Years
+                    self.EnableImages = EnableImages
+                    self.EnableUserData = EnableUserData
+                    self.ImageTypeLimit = ImageTypeLimit
+                    self.EnableImageTypes = EnableImageTypes
+                    self.Person = Person
+                    self.PersonIds = PersonIds
+                    self.PersonTypes = PersonTypes
+                    self.Studios = Studios
+                    self.StudioIds = StudioIds
+                    self.Artists = Artists
+                    self.ArtistIds = ArtistIds
+                    self.Albums = Albums
+                    self.Ids = Ids
+                    self.VideoTypes = VideoTypes
+                    self.Containers = Containers
+                    self.AudioCodecs = AudioCodecs
+                    self.AudioLayouts = AudioLayouts
+                    self.VideoCodecs = VideoCodecs
+                    self.ExtendedVideoTypes = ExtendedVideoTypes
+                    self.SubtitleCodecs = SubtitleCodecs
+                    self.Path = Path
+                    self.UserId = UserId
+                    self.MinOfficialRating = MinOfficialRating
+                    self.IsLocked = IsLocked
+                    self.IsPlaceHolder = IsPlaceHolder
+                    self.HasOfficialRating = HasOfficialRating
+                    self.GroupItemsIntoCollections = GroupItemsIntoCollections
+                    self.Is3D = Is3D
+                    self.SeriesStatus = SeriesStatus
+                    self.NameStartsWithOrGreater = NameStartsWithOrGreater
+                    self.ArtistStartsWithOrGreater = ArtistStartsWithOrGreater
+                    self.AlbumArtistStartsWithOrGreater = AlbumArtistStartsWithOrGreater
+                    self.NameStartsWith = NameStartsWith
+                    self.NameLessThan = NameLessThan
+                }
+            }
+            internal var query: Operations.getArtists.Input.Query
+            /// - Remark: Generated from `#/paths/Artists/GET/header`.
+            internal struct Headers: Sendable, Hashable {
+                internal var accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.getArtists.AcceptableContentType>]
+                /// Creates a new `Headers`.
+                ///
+                /// - Parameters:
+                ///   - accept:
+                internal init(accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.getArtists.AcceptableContentType>] = .defaultValues()) {
+                    self.accept = accept
+                }
+            }
+            internal var headers: Operations.getArtists.Input.Headers
+            /// Creates a new `Input`.
+            ///
+            /// - Parameters:
+            ///   - query:
+            ///   - headers:
+            internal init(
+                query: Operations.getArtists.Input.Query = .init(),
+                headers: Operations.getArtists.Input.Headers = .init()
+            ) {
+                self.query = query
+                self.headers = headers
+            }
+        }
+        internal enum Output: Sendable, Hashable {
+            internal struct Ok: Sendable, Hashable {
+                /// - Remark: Generated from `#/paths/Artists/GET/responses/200/content`.
+                internal enum Body: Sendable, Hashable {
+                    /// - Remark: Generated from `#/paths/Artists/GET/responses/200/content/application\/json`.
+                    case json(Components.Schemas.QueryResult_BaseItemDto)
+                    /// The associated value of the enum case if `self` is `.json`.
+                    ///
+                    /// - Throws: An error if `self` is not `.json`.
+                    /// - SeeAlso: `.json`.
+                    internal var json: Components.Schemas.QueryResult_BaseItemDto {
+                        get throws {
+                            switch self {
+                            case let .json(body):
+                                return body
+                            default:
+                                try throwUnexpectedResponseBody(
+                                    expectedContent: "application/json",
+                                    body: self
+                                )
+                            }
+                        }
+                    }
+                    /// - Remark: Generated from `#/paths/Artists/GET/responses/200/content/application\/xml`.
+                    case xml(OpenAPIRuntime.HTTPBody)
+                    /// The associated value of the enum case if `self` is `.xml`.
+                    ///
+                    /// - Throws: An error if `self` is not `.xml`.
+                    /// - SeeAlso: `.xml`.
+                    internal var xml: OpenAPIRuntime.HTTPBody {
+                        get throws {
+                            switch self {
+                            case let .xml(body):
+                                return body
+                            default:
+                                try throwUnexpectedResponseBody(
+                                    expectedContent: "application/xml",
+                                    body: self
+                                )
+                            }
+                        }
+                    }
+                }
+                /// Received HTTP response body
+                internal var body: Operations.getArtists.Output.Ok.Body
+                /// Creates a new `Ok`.
+                ///
+                /// - Parameters:
+                ///   - body: Received HTTP response body
+                internal init(body: Operations.getArtists.Output.Ok.Body) {
+                    self.body = body
+                }
+            }
+            /// Operation successful. Returning a QueryResult<BaseItemDto> object.
+            ///
+            /// - Remark: Generated from `#/paths//Artists/get(getArtists)/responses/200`.
+            ///
+            /// HTTP response code: `200 ok`.
+            case ok(Operations.getArtists.Output.Ok)
+            /// The associated value of the enum case if `self` is `.ok`.
+            ///
+            /// - Throws: An error if `self` is not `.ok`.
+            /// - SeeAlso: `.ok`.
+            internal var ok: Operations.getArtists.Output.Ok {
+                get throws {
+                    switch self {
+                    case let .ok(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "ok",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// Bad Request. Server cannot process request.
+            ///
+            /// - Remark: Generated from `#/paths//Artists/get(getArtists)/responses/400`.
+            ///
+            /// HTTP response code: `400 badRequest`.
+            case badRequest(Components.Responses._400)
+            /// Bad Request. Server cannot process request.
+            ///
+            /// - Remark: Generated from `#/paths//Artists/get(getArtists)/responses/400`.
+            ///
+            /// HTTP response code: `400 badRequest`.
+            internal static var badRequest: Self {
+                .badRequest(.init())
+            }
+            /// The associated value of the enum case if `self` is `.badRequest`.
+            ///
+            /// - Throws: An error if `self` is not `.badRequest`.
+            /// - SeeAlso: `.badRequest`.
+            internal var badRequest: Components.Responses._400 {
+                get throws {
+                    switch self {
+                    case let .badRequest(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "badRequest",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// Unauthorized. Client needs to authenticate.
+            ///
+            /// - Remark: Generated from `#/paths//Artists/get(getArtists)/responses/401`.
+            ///
+            /// HTTP response code: `401 unauthorized`.
+            case unauthorized(Components.Responses._401)
+            /// Unauthorized. Client needs to authenticate.
+            ///
+            /// - Remark: Generated from `#/paths//Artists/get(getArtists)/responses/401`.
+            ///
+            /// HTTP response code: `401 unauthorized`.
+            internal static var unauthorized: Self {
+                .unauthorized(.init())
+            }
+            /// The associated value of the enum case if `self` is `.unauthorized`.
+            ///
+            /// - Throws: An error if `self` is not `.unauthorized`.
+            /// - SeeAlso: `.unauthorized`.
+            internal var unauthorized: Components.Responses._401 {
+                get throws {
+                    switch self {
+                    case let .unauthorized(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "unauthorized",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// Forbidden. No permission for the reqested operation.
+            ///
+            /// - Remark: Generated from `#/paths//Artists/get(getArtists)/responses/403`.
+            ///
+            /// HTTP response code: `403 forbidden`.
+            case forbidden(Components.Responses._403)
+            /// Forbidden. No permission for the reqested operation.
+            ///
+            /// - Remark: Generated from `#/paths//Artists/get(getArtists)/responses/403`.
+            ///
+            /// HTTP response code: `403 forbidden`.
+            internal static var forbidden: Self {
+                .forbidden(.init())
+            }
+            /// The associated value of the enum case if `self` is `.forbidden`.
+            ///
+            /// - Throws: An error if `self` is not `.forbidden`.
+            /// - SeeAlso: `.forbidden`.
+            internal var forbidden: Components.Responses._403 {
+                get throws {
+                    switch self {
+                    case let .forbidden(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "forbidden",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// Resource not found or unavailable.
+            ///
+            /// - Remark: Generated from `#/paths//Artists/get(getArtists)/responses/404`.
+            ///
+            /// HTTP response code: `404 notFound`.
+            case notFound(Components.Responses._404)
+            /// Resource not found or unavailable.
+            ///
+            /// - Remark: Generated from `#/paths//Artists/get(getArtists)/responses/404`.
+            ///
+            /// HTTP response code: `404 notFound`.
+            internal static var notFound: Self {
+                .notFound(.init())
+            }
+            /// The associated value of the enum case if `self` is `.notFound`.
+            ///
+            /// - Throws: An error if `self` is not `.notFound`.
+            /// - SeeAlso: `.notFound`.
+            internal var notFound: Components.Responses._404 {
+                get throws {
+                    switch self {
+                    case let .notFound(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "notFound",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// Server error.
+            ///
+            /// - Remark: Generated from `#/paths//Artists/get(getArtists)/responses/500`.
+            ///
+            /// HTTP response code: `500 internalServerError`.
+            case internalServerError(Components.Responses._500)
+            /// Server error.
+            ///
+            /// - Remark: Generated from `#/paths//Artists/get(getArtists)/responses/500`.
+            ///
+            /// HTTP response code: `500 internalServerError`.
+            internal static var internalServerError: Self {
+                .internalServerError(.init())
+            }
+            /// The associated value of the enum case if `self` is `.internalServerError`.
+            ///
+            /// - Throws: An error if `self` is not `.internalServerError`.
+            /// - SeeAlso: `.internalServerError`.
+            internal var internalServerError: Components.Responses._500 {
+                get throws {
+                    switch self {
+                    case let .internalServerError(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "internalServerError",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// Undocumented response.
+            ///
+            /// A response with a code that is not documented in the OpenAPI document.
+            case undocumented(statusCode: Swift.Int, OpenAPIRuntime.UndocumentedPayload)
+        }
+        internal enum AcceptableContentType: AcceptableProtocol {
+            case json
+            case xml
+            case other(Swift.String)
+            internal init?(rawValue: Swift.String) {
+                switch rawValue.lowercased() {
+                case "application/json":
+                    self = .json
+                case "application/xml":
+                    self = .xml
+                default:
+                    self = .other(rawValue)
+                }
+            }
+            internal var rawValue: Swift.String {
+                switch self {
+                case let .other(string):
+                    return string
+                case .json:
+                    return "application/json"
+                case .xml:
+                    return "application/xml"
+                }
+            }
+            internal static var allCases: [Self] {
+                [
+                    .json,
+                    .xml
+                ]
+            }
+        }
+    }
     /// Gets items based on a query.
     ///
     /// Requires authentication as user
@@ -7246,6 +8283,341 @@ internal enum Operations {
             /// Server error.
             ///
             /// - Remark: Generated from `#/paths//Items/get(getItems)/responses/500`.
+            ///
+            /// HTTP response code: `500 internalServerError`.
+            internal static var internalServerError: Self {
+                .internalServerError(.init())
+            }
+            /// The associated value of the enum case if `self` is `.internalServerError`.
+            ///
+            /// - Throws: An error if `self` is not `.internalServerError`.
+            /// - SeeAlso: `.internalServerError`.
+            internal var internalServerError: Components.Responses._500 {
+                get throws {
+                    switch self {
+                    case let .internalServerError(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "internalServerError",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// Undocumented response.
+            ///
+            /// A response with a code that is not documented in the OpenAPI document.
+            case undocumented(statusCode: Swift.Int, OpenAPIRuntime.UndocumentedPayload)
+        }
+        internal enum AcceptableContentType: AcceptableProtocol {
+            case json
+            case xml
+            case other(Swift.String)
+            internal init?(rawValue: Swift.String) {
+                switch rawValue.lowercased() {
+                case "application/json":
+                    self = .json
+                case "application/xml":
+                    self = .xml
+                default:
+                    self = .other(rawValue)
+                }
+            }
+            internal var rawValue: Swift.String {
+                switch self {
+                case let .other(string):
+                    return string
+                case .json:
+                    return "application/json"
+                case .xml:
+                    return "application/xml"
+                }
+            }
+            internal static var allCases: [Self] {
+                [
+                    .json,
+                    .xml
+                ]
+            }
+        }
+    }
+    /// Gets an artist, by name
+    ///
+    /// Requires authentication as user
+    ///
+    /// - Remark: HTTP `GET /Artists/{Name}`.
+    /// - Remark: Generated from `#/paths//Artists/{Name}/get(getArtistsByName)`.
+    internal enum getArtistsByName {
+        internal static let id: Swift.String = "getArtistsByName"
+        internal struct Input: Sendable, Hashable {
+            /// - Remark: Generated from `#/paths/Artists/{Name}/GET/path`.
+            internal struct Path: Sendable, Hashable {
+                /// The artist name
+                ///
+                /// - Remark: Generated from `#/paths/Artists/{Name}/GET/path/Name`.
+                internal var Name: Swift.String
+                /// Creates a new `Path`.
+                ///
+                /// - Parameters:
+                ///   - Name: The artist name
+                internal init(Name: Swift.String) {
+                    self.Name = Name
+                }
+            }
+            internal var path: Operations.getArtistsByName.Input.Path
+            /// - Remark: Generated from `#/paths/Artists/{Name}/GET/query`.
+            internal struct Query: Sendable, Hashable {
+                /// Optional. Filter by user id, and attach user data
+                ///
+                /// - Remark: Generated from `#/paths/Artists/{Name}/GET/query/UserId`.
+                internal var UserId: Swift.String?
+                /// Creates a new `Query`.
+                ///
+                /// - Parameters:
+                ///   - UserId: Optional. Filter by user id, and attach user data
+                internal init(UserId: Swift.String? = nil) {
+                    self.UserId = UserId
+                }
+            }
+            internal var query: Operations.getArtistsByName.Input.Query
+            /// - Remark: Generated from `#/paths/Artists/{Name}/GET/header`.
+            internal struct Headers: Sendable, Hashable {
+                internal var accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.getArtistsByName.AcceptableContentType>]
+                /// Creates a new `Headers`.
+                ///
+                /// - Parameters:
+                ///   - accept:
+                internal init(accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.getArtistsByName.AcceptableContentType>] = .defaultValues()) {
+                    self.accept = accept
+                }
+            }
+            internal var headers: Operations.getArtistsByName.Input.Headers
+            /// Creates a new `Input`.
+            ///
+            /// - Parameters:
+            ///   - path:
+            ///   - query:
+            ///   - headers:
+            internal init(
+                path: Operations.getArtistsByName.Input.Path,
+                query: Operations.getArtistsByName.Input.Query = .init(),
+                headers: Operations.getArtistsByName.Input.Headers = .init()
+            ) {
+                self.path = path
+                self.query = query
+                self.headers = headers
+            }
+        }
+        internal enum Output: Sendable, Hashable {
+            internal struct Ok: Sendable, Hashable {
+                /// - Remark: Generated from `#/paths/Artists/{Name}/GET/responses/200/content`.
+                internal enum Body: Sendable, Hashable {
+                    /// - Remark: Generated from `#/paths/Artists/{Name}/GET/responses/200/content/application\/json`.
+                    case json(Components.Schemas.BaseItemDto)
+                    /// The associated value of the enum case if `self` is `.json`.
+                    ///
+                    /// - Throws: An error if `self` is not `.json`.
+                    /// - SeeAlso: `.json`.
+                    internal var json: Components.Schemas.BaseItemDto {
+                        get throws {
+                            switch self {
+                            case let .json(body):
+                                return body
+                            default:
+                                try throwUnexpectedResponseBody(
+                                    expectedContent: "application/json",
+                                    body: self
+                                )
+                            }
+                        }
+                    }
+                    /// - Remark: Generated from `#/paths/Artists/{Name}/GET/responses/200/content/application\/xml`.
+                    case xml(OpenAPIRuntime.HTTPBody)
+                    /// The associated value of the enum case if `self` is `.xml`.
+                    ///
+                    /// - Throws: An error if `self` is not `.xml`.
+                    /// - SeeAlso: `.xml`.
+                    internal var xml: OpenAPIRuntime.HTTPBody {
+                        get throws {
+                            switch self {
+                            case let .xml(body):
+                                return body
+                            default:
+                                try throwUnexpectedResponseBody(
+                                    expectedContent: "application/xml",
+                                    body: self
+                                )
+                            }
+                        }
+                    }
+                }
+                /// Received HTTP response body
+                internal var body: Operations.getArtistsByName.Output.Ok.Body
+                /// Creates a new `Ok`.
+                ///
+                /// - Parameters:
+                ///   - body: Received HTTP response body
+                internal init(body: Operations.getArtistsByName.Output.Ok.Body) {
+                    self.body = body
+                }
+            }
+            /// Operation successful. Returning a BaseItemDto object.
+            ///
+            /// - Remark: Generated from `#/paths//Artists/{Name}/get(getArtistsByName)/responses/200`.
+            ///
+            /// HTTP response code: `200 ok`.
+            case ok(Operations.getArtistsByName.Output.Ok)
+            /// The associated value of the enum case if `self` is `.ok`.
+            ///
+            /// - Throws: An error if `self` is not `.ok`.
+            /// - SeeAlso: `.ok`.
+            internal var ok: Operations.getArtistsByName.Output.Ok {
+                get throws {
+                    switch self {
+                    case let .ok(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "ok",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// Bad Request. Server cannot process request.
+            ///
+            /// - Remark: Generated from `#/paths//Artists/{Name}/get(getArtistsByName)/responses/400`.
+            ///
+            /// HTTP response code: `400 badRequest`.
+            case badRequest(Components.Responses._400)
+            /// Bad Request. Server cannot process request.
+            ///
+            /// - Remark: Generated from `#/paths//Artists/{Name}/get(getArtistsByName)/responses/400`.
+            ///
+            /// HTTP response code: `400 badRequest`.
+            internal static var badRequest: Self {
+                .badRequest(.init())
+            }
+            /// The associated value of the enum case if `self` is `.badRequest`.
+            ///
+            /// - Throws: An error if `self` is not `.badRequest`.
+            /// - SeeAlso: `.badRequest`.
+            internal var badRequest: Components.Responses._400 {
+                get throws {
+                    switch self {
+                    case let .badRequest(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "badRequest",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// Unauthorized. Client needs to authenticate.
+            ///
+            /// - Remark: Generated from `#/paths//Artists/{Name}/get(getArtistsByName)/responses/401`.
+            ///
+            /// HTTP response code: `401 unauthorized`.
+            case unauthorized(Components.Responses._401)
+            /// Unauthorized. Client needs to authenticate.
+            ///
+            /// - Remark: Generated from `#/paths//Artists/{Name}/get(getArtistsByName)/responses/401`.
+            ///
+            /// HTTP response code: `401 unauthorized`.
+            internal static var unauthorized: Self {
+                .unauthorized(.init())
+            }
+            /// The associated value of the enum case if `self` is `.unauthorized`.
+            ///
+            /// - Throws: An error if `self` is not `.unauthorized`.
+            /// - SeeAlso: `.unauthorized`.
+            internal var unauthorized: Components.Responses._401 {
+                get throws {
+                    switch self {
+                    case let .unauthorized(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "unauthorized",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// Forbidden. No permission for the reqested operation.
+            ///
+            /// - Remark: Generated from `#/paths//Artists/{Name}/get(getArtistsByName)/responses/403`.
+            ///
+            /// HTTP response code: `403 forbidden`.
+            case forbidden(Components.Responses._403)
+            /// Forbidden. No permission for the reqested operation.
+            ///
+            /// - Remark: Generated from `#/paths//Artists/{Name}/get(getArtistsByName)/responses/403`.
+            ///
+            /// HTTP response code: `403 forbidden`.
+            internal static var forbidden: Self {
+                .forbidden(.init())
+            }
+            /// The associated value of the enum case if `self` is `.forbidden`.
+            ///
+            /// - Throws: An error if `self` is not `.forbidden`.
+            /// - SeeAlso: `.forbidden`.
+            internal var forbidden: Components.Responses._403 {
+                get throws {
+                    switch self {
+                    case let .forbidden(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "forbidden",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// Resource not found or unavailable.
+            ///
+            /// - Remark: Generated from `#/paths//Artists/{Name}/get(getArtistsByName)/responses/404`.
+            ///
+            /// HTTP response code: `404 notFound`.
+            case notFound(Components.Responses._404)
+            /// Resource not found or unavailable.
+            ///
+            /// - Remark: Generated from `#/paths//Artists/{Name}/get(getArtistsByName)/responses/404`.
+            ///
+            /// HTTP response code: `404 notFound`.
+            internal static var notFound: Self {
+                .notFound(.init())
+            }
+            /// The associated value of the enum case if `self` is `.notFound`.
+            ///
+            /// - Throws: An error if `self` is not `.notFound`.
+            /// - SeeAlso: `.notFound`.
+            internal var notFound: Components.Responses._404 {
+                get throws {
+                    switch self {
+                    case let .notFound(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "notFound",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// Server error.
+            ///
+            /// - Remark: Generated from `#/paths//Artists/{Name}/get(getArtistsByName)/responses/500`.
+            ///
+            /// HTTP response code: `500 internalServerError`.
+            case internalServerError(Components.Responses._500)
+            /// Server error.
+            ///
+            /// - Remark: Generated from `#/paths//Artists/{Name}/get(getArtistsByName)/responses/500`.
             ///
             /// HTTP response code: `500 internalServerError`.
             internal static var internalServerError: Self {

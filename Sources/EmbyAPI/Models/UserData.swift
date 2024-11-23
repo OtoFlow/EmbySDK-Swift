@@ -10,5 +10,5 @@ import Foundation
 public struct UserData {
     public var isFavorite: Bool
     public var lastPlayedDate: Date?
-    public var playCount: Int
+    public var playCount: Int?
 }
