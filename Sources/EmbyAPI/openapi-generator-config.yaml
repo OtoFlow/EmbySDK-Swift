@@ -4,6 +4,7 @@ generate:
 
 filter:
   tags:
-  - SystemService
-  - UserService
-  - ItemsService
+    - ItemsService
+  operations:
+    - getSystemInfoPublic
+    - postUsersAuthenticatebyname
