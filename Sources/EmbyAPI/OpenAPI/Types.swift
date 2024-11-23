@@ -62,6 +62,20 @@ internal protocol APIProtocol: Sendable {
     /// - Remark: HTTP `GET /Users/{UserId}/Items/Resume`.
     /// - Remark: Generated from `#/paths//Users/{UserId}/Items/Resume/get(getUsersByUseridItemsResume)`.
     func getUsersByUseridItemsResume(_ input: Operations.getUsersByUseridItemsResume.Input) async throws -> Operations.getUsersByUseridItemsResume.Output
+    /// Marks an item as a favorite
+    ///
+    /// Requires authentication as user
+    ///
+    /// - Remark: HTTP `POST /Users/{UserId}/FavoriteItems/{Id}`.
+    /// - Remark: Generated from `#/paths//Users/{UserId}/FavoriteItems/{Id}/post(postUsersByUseridFavoriteitemsById)`.
+    func postUsersByUseridFavoriteitemsById(_ input: Operations.postUsersByUseridFavoriteitemsById.Input) async throws -> Operations.postUsersByUseridFavoriteitemsById.Output
+    /// Unmarks an item as a favorite
+    ///
+    /// Requires authentication as user
+    ///
+    /// - Remark: HTTP `DELETE /Users/{UserId}/FavoriteItems/{Id}`.
+    /// - Remark: Generated from `#/paths//Users/{UserId}/FavoriteItems/{Id}/delete(deleteUsersByUseridFavoriteitemsById)`.
+    func deleteUsersByUseridFavoriteitemsById(_ input: Operations.deleteUsersByUseridFavoriteitemsById.Input) async throws -> Operations.deleteUsersByUseridFavoriteitemsById.Output
 }
 
 /// Convenience overloads for operation inputs.
@@ -170,6 +184,36 @@ extension APIProtocol {
         try await getUsersByUseridItemsResume(Operations.getUsersByUseridItemsResume.Input(
             path: path,
             query: query,
+            headers: headers
+        ))
+    }
+    /// Marks an item as a favorite
+    ///
+    /// Requires authentication as user
+    ///
+    /// - Remark: HTTP `POST /Users/{UserId}/FavoriteItems/{Id}`.
+    /// - Remark: Generated from `#/paths//Users/{UserId}/FavoriteItems/{Id}/post(postUsersByUseridFavoriteitemsById)`.
+    internal func postUsersByUseridFavoriteitemsById(
+        path: Operations.postUsersByUseridFavoriteitemsById.Input.Path,
+        headers: Operations.postUsersByUseridFavoriteitemsById.Input.Headers = .init()
+    ) async throws -> Operations.postUsersByUseridFavoriteitemsById.Output {
+        try await postUsersByUseridFavoriteitemsById(Operations.postUsersByUseridFavoriteitemsById.Input(
+            path: path,
+            headers: headers
+        ))
+    }
+    /// Unmarks an item as a favorite
+    ///
+    /// Requires authentication as user
+    ///
+    /// - Remark: HTTP `DELETE /Users/{UserId}/FavoriteItems/{Id}`.
+    /// - Remark: Generated from `#/paths//Users/{UserId}/FavoriteItems/{Id}/delete(deleteUsersByUseridFavoriteitemsById)`.
+    internal func deleteUsersByUseridFavoriteitemsById(
+        path: Operations.deleteUsersByUseridFavoriteitemsById.Input.Path,
+        headers: Operations.deleteUsersByUseridFavoriteitemsById.Input.Headers = .init()
+    ) async throws -> Operations.deleteUsersByUseridFavoriteitemsById.Output {
+        try await deleteUsersByUseridFavoriteitemsById(Operations.deleteUsersByUseridFavoriteitemsById.Input(
+            path: path,
             headers: headers
         ))
     }
@@ -11243,6 +11287,658 @@ internal enum Operations {
             /// Server error.
             ///
             /// - Remark: Generated from `#/paths//Users/{UserId}/Items/Resume/get(getUsersByUseridItemsResume)/responses/500`.
+            ///
+            /// HTTP response code: `500 internalServerError`.
+            internal static var internalServerError: Self {
+                .internalServerError(.init())
+            }
+            /// The associated value of the enum case if `self` is `.internalServerError`.
+            ///
+            /// - Throws: An error if `self` is not `.internalServerError`.
+            /// - SeeAlso: `.internalServerError`.
+            internal var internalServerError: Components.Responses._500 {
+                get throws {
+                    switch self {
+                    case let .internalServerError(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "internalServerError",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// Undocumented response.
+            ///
+            /// A response with a code that is not documented in the OpenAPI document.
+            case undocumented(statusCode: Swift.Int, OpenAPIRuntime.UndocumentedPayload)
+        }
+        internal enum AcceptableContentType: AcceptableProtocol {
+            case json
+            case xml
+            case other(Swift.String)
+            internal init?(rawValue: Swift.String) {
+                switch rawValue.lowercased() {
+                case "application/json":
+                    self = .json
+                case "application/xml":
+                    self = .xml
+                default:
+                    self = .other(rawValue)
+                }
+            }
+            internal var rawValue: Swift.String {
+                switch self {
+                case let .other(string):
+                    return string
+                case .json:
+                    return "application/json"
+                case .xml:
+                    return "application/xml"
+                }
+            }
+            internal static var allCases: [Self] {
+                [
+                    .json,
+                    .xml
+                ]
+            }
+        }
+    }
+    /// Marks an item as a favorite
+    ///
+    /// Requires authentication as user
+    ///
+    /// - Remark: HTTP `POST /Users/{UserId}/FavoriteItems/{Id}`.
+    /// - Remark: Generated from `#/paths//Users/{UserId}/FavoriteItems/{Id}/post(postUsersByUseridFavoriteitemsById)`.
+    internal enum postUsersByUseridFavoriteitemsById {
+        internal static let id: Swift.String = "postUsersByUseridFavoriteitemsById"
+        internal struct Input: Sendable, Hashable {
+            /// - Remark: Generated from `#/paths/Users/{UserId}/FavoriteItems/{Id}/POST/path`.
+            internal struct Path: Sendable, Hashable {
+                /// User Id
+                ///
+                /// - Remark: Generated from `#/paths/Users/{UserId}/FavoriteItems/{Id}/POST/path/UserId`.
+                internal var UserId: Swift.String
+                /// Item Id
+                ///
+                /// - Remark: Generated from `#/paths/Users/{UserId}/FavoriteItems/{Id}/POST/path/Id`.
+                internal var Id: Swift.String
+                /// Creates a new `Path`.
+                ///
+                /// - Parameters:
+                ///   - UserId: User Id
+                ///   - Id: Item Id
+                internal init(
+                    UserId: Swift.String,
+                    Id: Swift.String
+                ) {
+                    self.UserId = UserId
+                    self.Id = Id
+                }
+            }
+            internal var path: Operations.postUsersByUseridFavoriteitemsById.Input.Path
+            /// - Remark: Generated from `#/paths/Users/{UserId}/FavoriteItems/{Id}/POST/header`.
+            internal struct Headers: Sendable, Hashable {
+                internal var accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.postUsersByUseridFavoriteitemsById.AcceptableContentType>]
+                /// Creates a new `Headers`.
+                ///
+                /// - Parameters:
+                ///   - accept:
+                internal init(accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.postUsersByUseridFavoriteitemsById.AcceptableContentType>] = .defaultValues()) {
+                    self.accept = accept
+                }
+            }
+            internal var headers: Operations.postUsersByUseridFavoriteitemsById.Input.Headers
+            /// Creates a new `Input`.
+            ///
+            /// - Parameters:
+            ///   - path:
+            ///   - headers:
+            internal init(
+                path: Operations.postUsersByUseridFavoriteitemsById.Input.Path,
+                headers: Operations.postUsersByUseridFavoriteitemsById.Input.Headers = .init()
+            ) {
+                self.path = path
+                self.headers = headers
+            }
+        }
+        internal enum Output: Sendable, Hashable {
+            internal struct Ok: Sendable, Hashable {
+                /// - Remark: Generated from `#/paths/Users/{UserId}/FavoriteItems/{Id}/POST/responses/200/content`.
+                internal enum Body: Sendable, Hashable {
+                    /// - Remark: Generated from `#/paths/Users/{UserId}/FavoriteItems/{Id}/POST/responses/200/content/application\/json`.
+                    case json(Components.Schemas.UserItemDataDto)
+                    /// The associated value of the enum case if `self` is `.json`.
+                    ///
+                    /// - Throws: An error if `self` is not `.json`.
+                    /// - SeeAlso: `.json`.
+                    internal var json: Components.Schemas.UserItemDataDto {
+                        get throws {
+                            switch self {
+                            case let .json(body):
+                                return body
+                            default:
+                                try throwUnexpectedResponseBody(
+                                    expectedContent: "application/json",
+                                    body: self
+                                )
+                            }
+                        }
+                    }
+                    /// - Remark: Generated from `#/paths/Users/{UserId}/FavoriteItems/{Id}/POST/responses/200/content/application\/xml`.
+                    case xml(OpenAPIRuntime.HTTPBody)
+                    /// The associated value of the enum case if `self` is `.xml`.
+                    ///
+                    /// - Throws: An error if `self` is not `.xml`.
+                    /// - SeeAlso: `.xml`.
+                    internal var xml: OpenAPIRuntime.HTTPBody {
+                        get throws {
+                            switch self {
+                            case let .xml(body):
+                                return body
+                            default:
+                                try throwUnexpectedResponseBody(
+                                    expectedContent: "application/xml",
+                                    body: self
+                                )
+                            }
+                        }
+                    }
+                }
+                /// Received HTTP response body
+                internal var body: Operations.postUsersByUseridFavoriteitemsById.Output.Ok.Body
+                /// Creates a new `Ok`.
+                ///
+                /// - Parameters:
+                ///   - body: Received HTTP response body
+                internal init(body: Operations.postUsersByUseridFavoriteitemsById.Output.Ok.Body) {
+                    self.body = body
+                }
+            }
+            /// Operation successful. Returning a UserItemDataDto object.
+            ///
+            /// - Remark: Generated from `#/paths//Users/{UserId}/FavoriteItems/{Id}/post(postUsersByUseridFavoriteitemsById)/responses/200`.
+            ///
+            /// HTTP response code: `200 ok`.
+            case ok(Operations.postUsersByUseridFavoriteitemsById.Output.Ok)
+            /// The associated value of the enum case if `self` is `.ok`.
+            ///
+            /// - Throws: An error if `self` is not `.ok`.
+            /// - SeeAlso: `.ok`.
+            internal var ok: Operations.postUsersByUseridFavoriteitemsById.Output.Ok {
+                get throws {
+                    switch self {
+                    case let .ok(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "ok",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// Bad Request. Server cannot process request.
+            ///
+            /// - Remark: Generated from `#/paths//Users/{UserId}/FavoriteItems/{Id}/post(postUsersByUseridFavoriteitemsById)/responses/400`.
+            ///
+            /// HTTP response code: `400 badRequest`.
+            case badRequest(Components.Responses._400)
+            /// Bad Request. Server cannot process request.
+            ///
+            /// - Remark: Generated from `#/paths//Users/{UserId}/FavoriteItems/{Id}/post(postUsersByUseridFavoriteitemsById)/responses/400`.
+            ///
+            /// HTTP response code: `400 badRequest`.
+            internal static var badRequest: Self {
+                .badRequest(.init())
+            }
+            /// The associated value of the enum case if `self` is `.badRequest`.
+            ///
+            /// - Throws: An error if `self` is not `.badRequest`.
+            /// - SeeAlso: `.badRequest`.
+            internal var badRequest: Components.Responses._400 {
+                get throws {
+                    switch self {
+                    case let .badRequest(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "badRequest",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// Unauthorized. Client needs to authenticate.
+            ///
+            /// - Remark: Generated from `#/paths//Users/{UserId}/FavoriteItems/{Id}/post(postUsersByUseridFavoriteitemsById)/responses/401`.
+            ///
+            /// HTTP response code: `401 unauthorized`.
+            case unauthorized(Components.Responses._401)
+            /// Unauthorized. Client needs to authenticate.
+            ///
+            /// - Remark: Generated from `#/paths//Users/{UserId}/FavoriteItems/{Id}/post(postUsersByUseridFavoriteitemsById)/responses/401`.
+            ///
+            /// HTTP response code: `401 unauthorized`.
+            internal static var unauthorized: Self {
+                .unauthorized(.init())
+            }
+            /// The associated value of the enum case if `self` is `.unauthorized`.
+            ///
+            /// - Throws: An error if `self` is not `.unauthorized`.
+            /// - SeeAlso: `.unauthorized`.
+            internal var unauthorized: Components.Responses._401 {
+                get throws {
+                    switch self {
+                    case let .unauthorized(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "unauthorized",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// Forbidden. No permission for the reqested operation.
+            ///
+            /// - Remark: Generated from `#/paths//Users/{UserId}/FavoriteItems/{Id}/post(postUsersByUseridFavoriteitemsById)/responses/403`.
+            ///
+            /// HTTP response code: `403 forbidden`.
+            case forbidden(Components.Responses._403)
+            /// Forbidden. No permission for the reqested operation.
+            ///
+            /// - Remark: Generated from `#/paths//Users/{UserId}/FavoriteItems/{Id}/post(postUsersByUseridFavoriteitemsById)/responses/403`.
+            ///
+            /// HTTP response code: `403 forbidden`.
+            internal static var forbidden: Self {
+                .forbidden(.init())
+            }
+            /// The associated value of the enum case if `self` is `.forbidden`.
+            ///
+            /// - Throws: An error if `self` is not `.forbidden`.
+            /// - SeeAlso: `.forbidden`.
+            internal var forbidden: Components.Responses._403 {
+                get throws {
+                    switch self {
+                    case let .forbidden(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "forbidden",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// Resource not found or unavailable.
+            ///
+            /// - Remark: Generated from `#/paths//Users/{UserId}/FavoriteItems/{Id}/post(postUsersByUseridFavoriteitemsById)/responses/404`.
+            ///
+            /// HTTP response code: `404 notFound`.
+            case notFound(Components.Responses._404)
+            /// Resource not found or unavailable.
+            ///
+            /// - Remark: Generated from `#/paths//Users/{UserId}/FavoriteItems/{Id}/post(postUsersByUseridFavoriteitemsById)/responses/404`.
+            ///
+            /// HTTP response code: `404 notFound`.
+            internal static var notFound: Self {
+                .notFound(.init())
+            }
+            /// The associated value of the enum case if `self` is `.notFound`.
+            ///
+            /// - Throws: An error if `self` is not `.notFound`.
+            /// - SeeAlso: `.notFound`.
+            internal var notFound: Components.Responses._404 {
+                get throws {
+                    switch self {
+                    case let .notFound(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "notFound",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// Server error.
+            ///
+            /// - Remark: Generated from `#/paths//Users/{UserId}/FavoriteItems/{Id}/post(postUsersByUseridFavoriteitemsById)/responses/500`.
+            ///
+            /// HTTP response code: `500 internalServerError`.
+            case internalServerError(Components.Responses._500)
+            /// Server error.
+            ///
+            /// - Remark: Generated from `#/paths//Users/{UserId}/FavoriteItems/{Id}/post(postUsersByUseridFavoriteitemsById)/responses/500`.
+            ///
+            /// HTTP response code: `500 internalServerError`.
+            internal static var internalServerError: Self {
+                .internalServerError(.init())
+            }
+            /// The associated value of the enum case if `self` is `.internalServerError`.
+            ///
+            /// - Throws: An error if `self` is not `.internalServerError`.
+            /// - SeeAlso: `.internalServerError`.
+            internal var internalServerError: Components.Responses._500 {
+                get throws {
+                    switch self {
+                    case let .internalServerError(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "internalServerError",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// Undocumented response.
+            ///
+            /// A response with a code that is not documented in the OpenAPI document.
+            case undocumented(statusCode: Swift.Int, OpenAPIRuntime.UndocumentedPayload)
+        }
+        internal enum AcceptableContentType: AcceptableProtocol {
+            case json
+            case xml
+            case other(Swift.String)
+            internal init?(rawValue: Swift.String) {
+                switch rawValue.lowercased() {
+                case "application/json":
+                    self = .json
+                case "application/xml":
+                    self = .xml
+                default:
+                    self = .other(rawValue)
+                }
+            }
+            internal var rawValue: Swift.String {
+                switch self {
+                case let .other(string):
+                    return string
+                case .json:
+                    return "application/json"
+                case .xml:
+                    return "application/xml"
+                }
+            }
+            internal static var allCases: [Self] {
+                [
+                    .json,
+                    .xml
+                ]
+            }
+        }
+    }
+    /// Unmarks an item as a favorite
+    ///
+    /// Requires authentication as user
+    ///
+    /// - Remark: HTTP `DELETE /Users/{UserId}/FavoriteItems/{Id}`.
+    /// - Remark: Generated from `#/paths//Users/{UserId}/FavoriteItems/{Id}/delete(deleteUsersByUseridFavoriteitemsById)`.
+    internal enum deleteUsersByUseridFavoriteitemsById {
+        internal static let id: Swift.String = "deleteUsersByUseridFavoriteitemsById"
+        internal struct Input: Sendable, Hashable {
+            /// - Remark: Generated from `#/paths/Users/{UserId}/FavoriteItems/{Id}/DELETE/path`.
+            internal struct Path: Sendable, Hashable {
+                /// User Id
+                ///
+                /// - Remark: Generated from `#/paths/Users/{UserId}/FavoriteItems/{Id}/DELETE/path/UserId`.
+                internal var UserId: Swift.String
+                /// Item Id
+                ///
+                /// - Remark: Generated from `#/paths/Users/{UserId}/FavoriteItems/{Id}/DELETE/path/Id`.
+                internal var Id: Swift.String
+                /// Creates a new `Path`.
+                ///
+                /// - Parameters:
+                ///   - UserId: User Id
+                ///   - Id: Item Id
+                internal init(
+                    UserId: Swift.String,
+                    Id: Swift.String
+                ) {
+                    self.UserId = UserId
+                    self.Id = Id
+                }
+            }
+            internal var path: Operations.deleteUsersByUseridFavoriteitemsById.Input.Path
+            /// - Remark: Generated from `#/paths/Users/{UserId}/FavoriteItems/{Id}/DELETE/header`.
+            internal struct Headers: Sendable, Hashable {
+                internal var accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.deleteUsersByUseridFavoriteitemsById.AcceptableContentType>]
+                /// Creates a new `Headers`.
+                ///
+                /// - Parameters:
+                ///   - accept:
+                internal init(accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.deleteUsersByUseridFavoriteitemsById.AcceptableContentType>] = .defaultValues()) {
+                    self.accept = accept
+                }
+            }
+            internal var headers: Operations.deleteUsersByUseridFavoriteitemsById.Input.Headers
+            /// Creates a new `Input`.
+            ///
+            /// - Parameters:
+            ///   - path:
+            ///   - headers:
+            internal init(
+                path: Operations.deleteUsersByUseridFavoriteitemsById.Input.Path,
+                headers: Operations.deleteUsersByUseridFavoriteitemsById.Input.Headers = .init()
+            ) {
+                self.path = path
+                self.headers = headers
+            }
+        }
+        internal enum Output: Sendable, Hashable {
+            internal struct Ok: Sendable, Hashable {
+                /// - Remark: Generated from `#/paths/Users/{UserId}/FavoriteItems/{Id}/DELETE/responses/200/content`.
+                internal enum Body: Sendable, Hashable {
+                    /// - Remark: Generated from `#/paths/Users/{UserId}/FavoriteItems/{Id}/DELETE/responses/200/content/application\/json`.
+                    case json(Components.Schemas.UserItemDataDto)
+                    /// The associated value of the enum case if `self` is `.json`.
+                    ///
+                    /// - Throws: An error if `self` is not `.json`.
+                    /// - SeeAlso: `.json`.
+                    internal var json: Components.Schemas.UserItemDataDto {
+                        get throws {
+                            switch self {
+                            case let .json(body):
+                                return body
+                            default:
+                                try throwUnexpectedResponseBody(
+                                    expectedContent: "application/json",
+                                    body: self
+                                )
+                            }
+                        }
+                    }
+                    /// - Remark: Generated from `#/paths/Users/{UserId}/FavoriteItems/{Id}/DELETE/responses/200/content/application\/xml`.
+                    case xml(OpenAPIRuntime.HTTPBody)
+                    /// The associated value of the enum case if `self` is `.xml`.
+                    ///
+                    /// - Throws: An error if `self` is not `.xml`.
+                    /// - SeeAlso: `.xml`.
+                    internal var xml: OpenAPIRuntime.HTTPBody {
+                        get throws {
+                            switch self {
+                            case let .xml(body):
+                                return body
+                            default:
+                                try throwUnexpectedResponseBody(
+                                    expectedContent: "application/xml",
+                                    body: self
+                                )
+                            }
+                        }
+                    }
+                }
+                /// Received HTTP response body
+                internal var body: Operations.deleteUsersByUseridFavoriteitemsById.Output.Ok.Body
+                /// Creates a new `Ok`.
+                ///
+                /// - Parameters:
+                ///   - body: Received HTTP response body
+                internal init(body: Operations.deleteUsersByUseridFavoriteitemsById.Output.Ok.Body) {
+                    self.body = body
+                }
+            }
+            /// Operation successful. Returning a UserItemDataDto object.
+            ///
+            /// - Remark: Generated from `#/paths//Users/{UserId}/FavoriteItems/{Id}/delete(deleteUsersByUseridFavoriteitemsById)/responses/200`.
+            ///
+            /// HTTP response code: `200 ok`.
+            case ok(Operations.deleteUsersByUseridFavoriteitemsById.Output.Ok)
+            /// The associated value of the enum case if `self` is `.ok`.
+            ///
+            /// - Throws: An error if `self` is not `.ok`.
+            /// - SeeAlso: `.ok`.
+            internal var ok: Operations.deleteUsersByUseridFavoriteitemsById.Output.Ok {
+                get throws {
+                    switch self {
+                    case let .ok(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "ok",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// Bad Request. Server cannot process request.
+            ///
+            /// - Remark: Generated from `#/paths//Users/{UserId}/FavoriteItems/{Id}/delete(deleteUsersByUseridFavoriteitemsById)/responses/400`.
+            ///
+            /// HTTP response code: `400 badRequest`.
+            case badRequest(Components.Responses._400)
+            /// Bad Request. Server cannot process request.
+            ///
+            /// - Remark: Generated from `#/paths//Users/{UserId}/FavoriteItems/{Id}/delete(deleteUsersByUseridFavoriteitemsById)/responses/400`.
+            ///
+            /// HTTP response code: `400 badRequest`.
+            internal static var badRequest: Self {
+                .badRequest(.init())
+            }
+            /// The associated value of the enum case if `self` is `.badRequest`.
+            ///
+            /// - Throws: An error if `self` is not `.badRequest`.
+            /// - SeeAlso: `.badRequest`.
+            internal var badRequest: Components.Responses._400 {
+                get throws {
+                    switch self {
+                    case let .badRequest(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "badRequest",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// Unauthorized. Client needs to authenticate.
+            ///
+            /// - Remark: Generated from `#/paths//Users/{UserId}/FavoriteItems/{Id}/delete(deleteUsersByUseridFavoriteitemsById)/responses/401`.
+            ///
+            /// HTTP response code: `401 unauthorized`.
+            case unauthorized(Components.Responses._401)
+            /// Unauthorized. Client needs to authenticate.
+            ///
+            /// - Remark: Generated from `#/paths//Users/{UserId}/FavoriteItems/{Id}/delete(deleteUsersByUseridFavoriteitemsById)/responses/401`.
+            ///
+            /// HTTP response code: `401 unauthorized`.
+            internal static var unauthorized: Self {
+                .unauthorized(.init())
+            }
+            /// The associated value of the enum case if `self` is `.unauthorized`.
+            ///
+            /// - Throws: An error if `self` is not `.unauthorized`.
+            /// - SeeAlso: `.unauthorized`.
+            internal var unauthorized: Components.Responses._401 {
+                get throws {
+                    switch self {
+                    case let .unauthorized(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "unauthorized",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// Forbidden. No permission for the reqested operation.
+            ///
+            /// - Remark: Generated from `#/paths//Users/{UserId}/FavoriteItems/{Id}/delete(deleteUsersByUseridFavoriteitemsById)/responses/403`.
+            ///
+            /// HTTP response code: `403 forbidden`.
+            case forbidden(Components.Responses._403)
+            /// Forbidden. No permission for the reqested operation.
+            ///
+            /// - Remark: Generated from `#/paths//Users/{UserId}/FavoriteItems/{Id}/delete(deleteUsersByUseridFavoriteitemsById)/responses/403`.
+            ///
+            /// HTTP response code: `403 forbidden`.
+            internal static var forbidden: Self {
+                .forbidden(.init())
+            }
+            /// The associated value of the enum case if `self` is `.forbidden`.
+            ///
+            /// - Throws: An error if `self` is not `.forbidden`.
+            /// - SeeAlso: `.forbidden`.
+            internal var forbidden: Components.Responses._403 {
+                get throws {
+                    switch self {
+                    case let .forbidden(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "forbidden",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// Resource not found or unavailable.
+            ///
+            /// - Remark: Generated from `#/paths//Users/{UserId}/FavoriteItems/{Id}/delete(deleteUsersByUseridFavoriteitemsById)/responses/404`.
+            ///
+            /// HTTP response code: `404 notFound`.
+            case notFound(Components.Responses._404)
+            /// Resource not found or unavailable.
+            ///
+            /// - Remark: Generated from `#/paths//Users/{UserId}/FavoriteItems/{Id}/delete(deleteUsersByUseridFavoriteitemsById)/responses/404`.
+            ///
+            /// HTTP response code: `404 notFound`.
+            internal static var notFound: Self {
+                .notFound(.init())
+            }
+            /// The associated value of the enum case if `self` is `.notFound`.
+            ///
+            /// - Throws: An error if `self` is not `.notFound`.
+            /// - SeeAlso: `.notFound`.
+            internal var notFound: Components.Responses._404 {
+                get throws {
+                    switch self {
+                    case let .notFound(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "notFound",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// Server error.
+            ///
+            /// - Remark: Generated from `#/paths//Users/{UserId}/FavoriteItems/{Id}/delete(deleteUsersByUseridFavoriteitemsById)/responses/500`.
+            ///
+            /// HTTP response code: `500 internalServerError`.
+            case internalServerError(Components.Responses._500)
+            /// Server error.
+            ///
+            /// - Remark: Generated from `#/paths//Users/{UserId}/FavoriteItems/{Id}/delete(deleteUsersByUseridFavoriteitemsById)/responses/500`.
             ///
             /// HTTP response code: `500 internalServerError`.
             internal static var internalServerError: Self {

@@ -6,7 +6,13 @@ filter:
   tags:
     - ItemsService
   operations:
+    # SystemService
     - getSystemInfoPublic
+    # UserService
     - postUsersAuthenticatebyname
+    # UserLibraryService
+    - postUsersByUseridFavoriteitemsById
+    - deleteUsersByUseridFavoriteitemsById
+    # ArtistsService
     - getArtists
     - getArtistsByName

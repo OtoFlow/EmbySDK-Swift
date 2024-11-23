@@ -3342,4 +3342,172 @@ internal struct Client: APIProtocol {
             }
         )
     }
+    /// Marks an item as a favorite
+    ///
+    /// Requires authentication as user
+    ///
+    /// - Remark: HTTP `POST /Users/{UserId}/FavoriteItems/{Id}`.
+    /// - Remark: Generated from `#/paths//Users/{UserId}/FavoriteItems/{Id}/post(postUsersByUseridFavoriteitemsById)`.
+    internal func postUsersByUseridFavoriteitemsById(_ input: Operations.postUsersByUseridFavoriteitemsById.Input) async throws -> Operations.postUsersByUseridFavoriteitemsById.Output {
+        try await client.send(
+            input: input,
+            forOperation: Operations.postUsersByUseridFavoriteitemsById.id,
+            serializer: { input in
+                let path = try converter.renderedPath(
+                    template: "/Users/{}/FavoriteItems/{}",
+                    parameters: [
+                        input.path.UserId,
+                        input.path.Id
+                    ]
+                )
+                var request: HTTPTypes.HTTPRequest = .init(
+                    soar_path: path,
+                    method: .post
+                )
+                suppressMutabilityWarning(&request)
+                converter.setAcceptHeader(
+                    in: &request.headerFields,
+                    contentTypes: input.headers.accept
+                )
+                return (request, nil)
+            },
+            deserializer: { response, responseBody in
+                switch response.status.code {
+                case 200:
+                    let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
+                    let body: Operations.postUsersByUseridFavoriteitemsById.Output.Ok.Body
+                    let chosenContentType = try converter.bestContentType(
+                        received: contentType,
+                        options: [
+                            "application/json",
+                            "application/xml"
+                        ]
+                    )
+                    switch chosenContentType {
+                    case "application/json":
+                        body = try await converter.getResponseBodyAsJSON(
+                            Components.Schemas.UserItemDataDto.self,
+                            from: responseBody,
+                            transforming: { value in
+                                .json(value)
+                            }
+                        )
+                    case "application/xml":
+                        body = try converter.getResponseBodyAsBinary(
+                            OpenAPIRuntime.HTTPBody.self,
+                            from: responseBody,
+                            transforming: { value in
+                                .xml(value)
+                            }
+                        )
+                    default:
+                        preconditionFailure("bestContentType chose an invalid content type.")
+                    }
+                    return .ok(.init(body: body))
+                case 400:
+                    return .badRequest(.init())
+                case 401:
+                    return .unauthorized(.init())
+                case 403:
+                    return .forbidden(.init())
+                case 404:
+                    return .notFound(.init())
+                case 500:
+                    return .internalServerError(.init())
+                default:
+                    return .undocumented(
+                        statusCode: response.status.code,
+                        .init(
+                            headerFields: response.headerFields,
+                            body: responseBody
+                        )
+                    )
+                }
+            }
+        )
+    }
+    /// Unmarks an item as a favorite
+    ///
+    /// Requires authentication as user
+    ///
+    /// - Remark: HTTP `DELETE /Users/{UserId}/FavoriteItems/{Id}`.
+    /// - Remark: Generated from `#/paths//Users/{UserId}/FavoriteItems/{Id}/delete(deleteUsersByUseridFavoriteitemsById)`.
+    internal func deleteUsersByUseridFavoriteitemsById(_ input: Operations.deleteUsersByUseridFavoriteitemsById.Input) async throws -> Operations.deleteUsersByUseridFavoriteitemsById.Output {
+        try await client.send(
+            input: input,
+            forOperation: Operations.deleteUsersByUseridFavoriteitemsById.id,
+            serializer: { input in
+                let path = try converter.renderedPath(
+                    template: "/Users/{}/FavoriteItems/{}",
+                    parameters: [
+                        input.path.UserId,
+                        input.path.Id
+                    ]
+                )
+                var request: HTTPTypes.HTTPRequest = .init(
+                    soar_path: path,
+                    method: .delete
+                )
+                suppressMutabilityWarning(&request)
+                converter.setAcceptHeader(
+                    in: &request.headerFields,
+                    contentTypes: input.headers.accept
+                )
+                return (request, nil)
+            },
+            deserializer: { response, responseBody in
+                switch response.status.code {
+                case 200:
+                    let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
+                    let body: Operations.deleteUsersByUseridFavoriteitemsById.Output.Ok.Body
+                    let chosenContentType = try converter.bestContentType(
+                        received: contentType,
+                        options: [
+                            "application/json",
+                            "application/xml"
+                        ]
+                    )
+                    switch chosenContentType {
+                    case "application/json":
+                        body = try await converter.getResponseBodyAsJSON(
+                            Components.Schemas.UserItemDataDto.self,
+                            from: responseBody,
+                            transforming: { value in
+                                .json(value)
+                            }
+                        )
+                    case "application/xml":
+                        body = try converter.getResponseBodyAsBinary(
+                            OpenAPIRuntime.HTTPBody.self,
+                            from: responseBody,
+                            transforming: { value in
+                                .xml(value)
+                            }
+                        )
+                    default:
+                        preconditionFailure("bestContentType chose an invalid content type.")
+                    }
+                    return .ok(.init(body: body))
+                case 400:
+                    return .badRequest(.init())
+                case 401:
+                    return .unauthorized(.init())
+                case 403:
+                    return .forbidden(.init())
+                case 404:
+                    return .notFound(.init())
+                case 500:
+                    return .internalServerError(.init())
+                default:
+                    return .undocumented(
+                        statusCode: response.status.code,
+                        .init(
+                            headerFields: response.headerFields,
+                            body: responseBody
+                        )
+                    )
+                }
+            }
+        )
+    }
 }
