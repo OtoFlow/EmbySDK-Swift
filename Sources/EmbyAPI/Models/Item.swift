@@ -31,9 +31,7 @@ extension Item {
             name: item.Name ?? "",
             type: item._Type,
             overview: item.Overview,
-            artists: item.ArtistItems?.map {
-                .init(id: $0.Id!, name: $0.Name!)
-            },
+            artists: item.ArtistItems?.map { $0.convertToNameIdPair() },
             imageTags: item.ImageTags?.additionalProperties,
             indexNumber: item.IndexNumber.map(Int.init),
             parentIndexNumber: item.ParentIndexNumber.map(Int.init),
@@ -41,9 +39,7 @@ extension Item {
             premiereDate: item.PremiereDate,
             album: item.Album,
             albumID: item.AlbumId,
-            albumArtists: item.AlbumArtists?.map {
-                .init(id: $0.Id!, name: $0.Name!)
-            },
+            albumArtists: item.AlbumArtists?.map { $0.convertToNameIdPair() },
             userData: item.UserData.map(UserData.convertFromOpenAPI)
         )
     }

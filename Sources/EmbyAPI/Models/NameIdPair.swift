@@ -11,3 +11,16 @@ public struct NameIdPair {
     public let id: String
     public let name: String
 }
+
+protocol NameIdPairProtocol {
+    var Name: String? { get }
+    var Id: String? { get }
+}
+
+extension NameIdPairProtocol {
+    func convertToNameIdPair() -> NameIdPair {
+        NameIdPair(id: Id!, name: Name ?? "")
+    }
+}
+
+extension Components.Schemas.NameIdPair: NameIdPairProtocol { }
