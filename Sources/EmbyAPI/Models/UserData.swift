@@ -12,3 +12,13 @@ public struct UserData {
     public var lastPlayedDate: Date?
     public var playCount: Int?
 }
+
+extension UserData {
+    static func convertFromOpenAPI(_ userData: Components.Schemas.UserItemDataDto) -> UserData {
+        UserData(
+            isFavorite: userData.IsFavorite ?? false,
+            lastPlayedDate: userData.LastPlayedDate,
+            playCount: userData.PlayCount.map(Int.init)
+        )
+    }
+}

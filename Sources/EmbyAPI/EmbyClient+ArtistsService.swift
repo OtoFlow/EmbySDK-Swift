@@ -15,7 +15,7 @@ extension EmbyClient {
         )
         let response = try await underlyingClient.getArtists(input)
         let items = try response.ok.body.json.Items
-        return (items ?? []).map { .convertFromBaseItem($0) }
+        return (items ?? []).map { .convertFromOpenAPI($0) }
     }
 
     public func getArtist(name: String) async throws -> Item? {
@@ -26,6 +26,6 @@ extension EmbyClient {
         )
         let response = try await underlyingClient.getArtistsByName(input)
         let item = try? response.ok.body.json
-        return item.map { .convertFromBaseItem($0) }
+        return item.map { .convertFromOpenAPI($0) }
     }
 }

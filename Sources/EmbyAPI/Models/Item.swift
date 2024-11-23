@@ -25,7 +25,7 @@ public struct Item {
 }
 
 extension Item {
-    static func convertFromBaseItem(_ item: Components.Schemas.BaseItemDto) -> Item {
+    static func convertFromOpenAPI(_ item: Components.Schemas.BaseItemDto) -> Item {
         Item(
             id: item.Id!,
             name: item.Name ?? "",
@@ -44,13 +44,7 @@ extension Item {
             albumArtists: item.AlbumArtists?.map {
                 .init(id: $0.Id!, name: $0.Name!)
             },
-            userData: item.UserData.map { userData in
-                    .init(
-                        isFavorite: userData.IsFavorite ?? false,
-                        lastPlayedDate: userData.LastPlayedDate,
-                        playCount: userData.PlayCount.map(Int.init)
-                    )
-            }
+            userData: item.UserData.map(UserData.convertFromOpenAPI)
         )
     }
 }

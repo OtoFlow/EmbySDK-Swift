@@ -41,7 +41,7 @@ extension EmbyClient {
         )
         let response = try await underlyingClient.getItems(input)
         let items = try response.ok.body.json.Items
-        return (items ?? []).map { .convertFromBaseItem($0) }
+        return (items ?? []).map { .convertFromOpenAPI($0) }
     }
 
     public func getItemsByUser(
@@ -80,6 +80,6 @@ extension EmbyClient {
         )
         let response = try await underlyingClient.getUsersByUseridItems(input)
         let items = try response.ok.body.json.Items
-        return (items ?? []).map { .convertFromBaseItem($0) }
+        return (items ?? []).map { .convertFromOpenAPI($0) }
     }
 }

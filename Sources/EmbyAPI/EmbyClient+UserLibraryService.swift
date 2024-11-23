@@ -8,16 +8,19 @@
 import Foundation
 
 extension EmbyClient {
-    public func markFavorite(_ isFavorite: Bool, itemID: String) async throws {
+    @discardableResult
+    public func markFavorite(_ isFavorite: Bool, itemID: String) async throws -> UserData {
         guard let userID else { throw ClientError.invalidUser }
+        let userData: Components.Schemas.UserItemDataDto
         if isFavorite {
-            try await underlyingClient.postUsersByUseridFavoriteitemsById(
+            userData = try await underlyingClient.postUsersByUseridFavoriteitemsById(
                 path: .init(UserId: userID, Id: itemID)
-            )
+            ).ok.body.json
         } else {
-            try await underlyingClient.deleteUsersByUseridFavoriteitemsById(
+            userData = try await underlyingClient.deleteUsersByUseridFavoriteitemsById(
                 path: .init(UserId: userID, Id: itemID)
-            )
+            ).ok.body.json
         }
+        return .convertFromOpenAPI(userData)
     }
 }
