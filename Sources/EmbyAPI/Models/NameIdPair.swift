@@ -18,8 +18,8 @@ protocol NameIdPairProtocol {
 }
 
 extension NameIdPairProtocol {
-    func convertToNameIdPair() -> NameIdPair {
-        NameIdPair(id: Id!, name: Name ?? "")
+    var NameIdPair: NameIdPair {
+        .init(id: Id!, name: Name ?? "")
     }
 }
 

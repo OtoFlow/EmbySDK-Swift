@@ -31,7 +31,7 @@ extension Item {
             name: item.Name ?? "",
             type: item._Type,
             overview: item.Overview,
-            artists: item.ArtistItems?.map { $0.convertToNameIdPair() },
+            artists: item.ArtistItems?.map(\.NameIdPair),
             imageTags: item.ImageTags?.additionalProperties,
             indexNumber: item.IndexNumber.map(Int.init),
             parentIndexNumber: item.ParentIndexNumber.map(Int.init),
@@ -39,7 +39,7 @@ extension Item {
             premiereDate: item.PremiereDate,
             album: item.Album,
             albumID: item.AlbumId,
-            albumArtists: item.AlbumArtists?.map { $0.convertToNameIdPair() },
+            albumArtists: item.AlbumArtists?.map(\.NameIdPair),
             userData: item.UserData.map(UserData.convertFromOpenAPI)
         )
     }
