@@ -20,7 +20,8 @@ extension EmbyClient {
         parentID: String? = nil,
         enableUserData: Bool = false,
         artistIds: [String]? = nil,
-        albums: [String]? = nil
+        albums: [String]? = nil,
+        ids: [String]? = nil
     ) async throws -> [Item] {
         let input = Operations.getItems.Input(
             query: .init(
@@ -36,6 +37,7 @@ extension EmbyClient {
                 EnableUserData: enableUserData,
                 ArtistIds: artistIds?.joined(separator: "|"),
                 Albums: albums?.joined(separator: "|"),
+                Ids: ids?.joined(separator: "|"),
                 UserId: userID
             )
         )
@@ -57,7 +59,8 @@ extension EmbyClient {
         enableUserData: Bool = false,
         fields: Field? = nil,
         artistIds: [String]? = nil,
-        albums: [String]? = nil
+        albums: [String]? = nil,
+        ids: [String]? = nil
     ) async throws -> [Item] {
         guard let userID else { throw ClientError.invalidUser }
         let input = Operations.getUsersByUseridItems.Input(
@@ -75,7 +78,8 @@ extension EmbyClient {
                 Genres: genres?.rawValue,
                 EnableUserData: enableUserData,
                 ArtistIds: artistIds?.joined(separator: "|"),
-                Albums: albums?.joined(separator: "|")
+                Albums: albums?.joined(separator: "|"),
+                Ids: ids?.joined(separator: "|")
             )
         )
         let response = try await underlyingClient.getUsersByUseridItems(input)

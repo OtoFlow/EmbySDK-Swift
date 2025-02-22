@@ -5,9 +5,9 @@
 //  Created by Xianhe Meng on 2024/11/19.
 //
 
+import Foundation
 import OpenAPIRuntime
 import OpenAPIURLSession
-import Foundation
 import AuthenticationMiddleware
 
 public final class EmbyClient {
