@@ -22,6 +22,7 @@ public struct Item {
     public let albumID: String?
     public let albumArtists: [NameIdPair]?
     public let userData: UserData?
+    public let mediaStreams: [MediaStream]?
 }
 
 extension Item {
@@ -40,7 +41,8 @@ extension Item {
             album: item.Album,
             albumID: item.AlbumId,
             albumArtists: item.AlbumArtists?.map(\.NameIdPair),
-            userData: item.UserData.map(UserData.convertFromOpenAPI)
+            userData: item.UserData.map(UserData.convertFromOpenAPI),
+            mediaStreams: item.MediaStreams.map { $0.map(MediaStream.convertFromOpenAPI) }
         )
     }
 }

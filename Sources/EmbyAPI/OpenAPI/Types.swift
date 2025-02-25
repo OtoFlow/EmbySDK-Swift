@@ -76,6 +76,13 @@ internal protocol APIProtocol: Sendable {
     /// - Remark: HTTP `GET /Users/{UserId}/Items/Resume`.
     /// - Remark: Generated from `#/paths//Users/{UserId}/Items/Resume/get(getUsersByUseridItemsResume)`.
     func getUsersByUseridItemsResume(_ input: Operations.getUsersByUseridItemsResume.Input) async throws -> Operations.getUsersByUseridItemsResume.Output
+    /// Gets an item from a user's library
+    ///
+    /// Requires authentication as user
+    ///
+    /// - Remark: HTTP `GET /Users/{UserId}/Items/{Id}`.
+    /// - Remark: Generated from `#/paths//Users/{UserId}/Items/{Id}/get(getUsersByUseridItemsById)`.
+    func getUsersByUseridItemsById(_ input: Operations.getUsersByUseridItemsById.Input) async throws -> Operations.getUsersByUseridItemsById.Output
     /// Marks an item as a favorite
     ///
     /// Requires authentication as user
@@ -228,6 +235,21 @@ extension APIProtocol {
         try await getUsersByUseridItemsResume(Operations.getUsersByUseridItemsResume.Input(
             path: path,
             query: query,
+            headers: headers
+        ))
+    }
+    /// Gets an item from a user's library
+    ///
+    /// Requires authentication as user
+    ///
+    /// - Remark: HTTP `GET /Users/{UserId}/Items/{Id}`.
+    /// - Remark: Generated from `#/paths//Users/{UserId}/Items/{Id}/get(getUsersByUseridItemsById)`.
+    internal func getUsersByUseridItemsById(
+        path: Operations.getUsersByUseridItemsById.Input.Path,
+        headers: Operations.getUsersByUseridItemsById.Input.Headers = .init()
+    ) async throws -> Operations.getUsersByUseridItemsById.Output {
+        try await getUsersByUseridItemsById(Operations.getUsersByUseridItemsById.Input(
+            path: path,
             headers: headers
         ))
     }
@@ -12639,6 +12661,332 @@ internal enum Operations {
             /// Server error.
             ///
             /// - Remark: Generated from `#/paths//Users/{UserId}/Items/Resume/get(getUsersByUseridItemsResume)/responses/500`.
+            ///
+            /// HTTP response code: `500 internalServerError`.
+            internal static var internalServerError: Self {
+                .internalServerError(.init())
+            }
+            /// The associated value of the enum case if `self` is `.internalServerError`.
+            ///
+            /// - Throws: An error if `self` is not `.internalServerError`.
+            /// - SeeAlso: `.internalServerError`.
+            internal var internalServerError: Components.Responses._500 {
+                get throws {
+                    switch self {
+                    case let .internalServerError(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "internalServerError",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// Undocumented response.
+            ///
+            /// A response with a code that is not documented in the OpenAPI document.
+            case undocumented(statusCode: Swift.Int, OpenAPIRuntime.UndocumentedPayload)
+        }
+        internal enum AcceptableContentType: AcceptableProtocol {
+            case json
+            case xml
+            case other(Swift.String)
+            internal init?(rawValue: Swift.String) {
+                switch rawValue.lowercased() {
+                case "application/json":
+                    self = .json
+                case "application/xml":
+                    self = .xml
+                default:
+                    self = .other(rawValue)
+                }
+            }
+            internal var rawValue: Swift.String {
+                switch self {
+                case let .other(string):
+                    return string
+                case .json:
+                    return "application/json"
+                case .xml:
+                    return "application/xml"
+                }
+            }
+            internal static var allCases: [Self] {
+                [
+                    .json,
+                    .xml
+                ]
+            }
+        }
+    }
+    /// Gets an item from a user's library
+    ///
+    /// Requires authentication as user
+    ///
+    /// - Remark: HTTP `GET /Users/{UserId}/Items/{Id}`.
+    /// - Remark: Generated from `#/paths//Users/{UserId}/Items/{Id}/get(getUsersByUseridItemsById)`.
+    internal enum getUsersByUseridItemsById {
+        internal static let id: Swift.String = "getUsersByUseridItemsById"
+        internal struct Input: Sendable, Hashable {
+            /// - Remark: Generated from `#/paths/Users/{UserId}/Items/{Id}/GET/path`.
+            internal struct Path: Sendable, Hashable {
+                /// User Id
+                ///
+                /// - Remark: Generated from `#/paths/Users/{UserId}/Items/{Id}/GET/path/UserId`.
+                internal var UserId: Swift.String
+                /// Item Id
+                ///
+                /// - Remark: Generated from `#/paths/Users/{UserId}/Items/{Id}/GET/path/Id`.
+                internal var Id: Swift.String
+                /// Creates a new `Path`.
+                ///
+                /// - Parameters:
+                ///   - UserId: User Id
+                ///   - Id: Item Id
+                internal init(
+                    UserId: Swift.String,
+                    Id: Swift.String
+                ) {
+                    self.UserId = UserId
+                    self.Id = Id
+                }
+            }
+            internal var path: Operations.getUsersByUseridItemsById.Input.Path
+            /// - Remark: Generated from `#/paths/Users/{UserId}/Items/{Id}/GET/header`.
+            internal struct Headers: Sendable, Hashable {
+                internal var accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.getUsersByUseridItemsById.AcceptableContentType>]
+                /// Creates a new `Headers`.
+                ///
+                /// - Parameters:
+                ///   - accept:
+                internal init(accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.getUsersByUseridItemsById.AcceptableContentType>] = .defaultValues()) {
+                    self.accept = accept
+                }
+            }
+            internal var headers: Operations.getUsersByUseridItemsById.Input.Headers
+            /// Creates a new `Input`.
+            ///
+            /// - Parameters:
+            ///   - path:
+            ///   - headers:
+            internal init(
+                path: Operations.getUsersByUseridItemsById.Input.Path,
+                headers: Operations.getUsersByUseridItemsById.Input.Headers = .init()
+            ) {
+                self.path = path
+                self.headers = headers
+            }
+        }
+        internal enum Output: Sendable, Hashable {
+            internal struct Ok: Sendable, Hashable {
+                /// - Remark: Generated from `#/paths/Users/{UserId}/Items/{Id}/GET/responses/200/content`.
+                internal enum Body: Sendable, Hashable {
+                    /// - Remark: Generated from `#/paths/Users/{UserId}/Items/{Id}/GET/responses/200/content/application\/json`.
+                    case json(Components.Schemas.BaseItemDto)
+                    /// The associated value of the enum case if `self` is `.json`.
+                    ///
+                    /// - Throws: An error if `self` is not `.json`.
+                    /// - SeeAlso: `.json`.
+                    internal var json: Components.Schemas.BaseItemDto {
+                        get throws {
+                            switch self {
+                            case let .json(body):
+                                return body
+                            default:
+                                try throwUnexpectedResponseBody(
+                                    expectedContent: "application/json",
+                                    body: self
+                                )
+                            }
+                        }
+                    }
+                    /// - Remark: Generated from `#/paths/Users/{UserId}/Items/{Id}/GET/responses/200/content/application\/xml`.
+                    case xml(OpenAPIRuntime.HTTPBody)
+                    /// The associated value of the enum case if `self` is `.xml`.
+                    ///
+                    /// - Throws: An error if `self` is not `.xml`.
+                    /// - SeeAlso: `.xml`.
+                    internal var xml: OpenAPIRuntime.HTTPBody {
+                        get throws {
+                            switch self {
+                            case let .xml(body):
+                                return body
+                            default:
+                                try throwUnexpectedResponseBody(
+                                    expectedContent: "application/xml",
+                                    body: self
+                                )
+                            }
+                        }
+                    }
+                }
+                /// Received HTTP response body
+                internal var body: Operations.getUsersByUseridItemsById.Output.Ok.Body
+                /// Creates a new `Ok`.
+                ///
+                /// - Parameters:
+                ///   - body: Received HTTP response body
+                internal init(body: Operations.getUsersByUseridItemsById.Output.Ok.Body) {
+                    self.body = body
+                }
+            }
+            /// Operation successful. Returning a BaseItemDto object.
+            ///
+            /// - Remark: Generated from `#/paths//Users/{UserId}/Items/{Id}/get(getUsersByUseridItemsById)/responses/200`.
+            ///
+            /// HTTP response code: `200 ok`.
+            case ok(Operations.getUsersByUseridItemsById.Output.Ok)
+            /// The associated value of the enum case if `self` is `.ok`.
+            ///
+            /// - Throws: An error if `self` is not `.ok`.
+            /// - SeeAlso: `.ok`.
+            internal var ok: Operations.getUsersByUseridItemsById.Output.Ok {
+                get throws {
+                    switch self {
+                    case let .ok(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "ok",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// Bad Request. Server cannot process request.
+            ///
+            /// - Remark: Generated from `#/paths//Users/{UserId}/Items/{Id}/get(getUsersByUseridItemsById)/responses/400`.
+            ///
+            /// HTTP response code: `400 badRequest`.
+            case badRequest(Components.Responses._400)
+            /// Bad Request. Server cannot process request.
+            ///
+            /// - Remark: Generated from `#/paths//Users/{UserId}/Items/{Id}/get(getUsersByUseridItemsById)/responses/400`.
+            ///
+            /// HTTP response code: `400 badRequest`.
+            internal static var badRequest: Self {
+                .badRequest(.init())
+            }
+            /// The associated value of the enum case if `self` is `.badRequest`.
+            ///
+            /// - Throws: An error if `self` is not `.badRequest`.
+            /// - SeeAlso: `.badRequest`.
+            internal var badRequest: Components.Responses._400 {
+                get throws {
+                    switch self {
+                    case let .badRequest(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "badRequest",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// Unauthorized. Client needs to authenticate.
+            ///
+            /// - Remark: Generated from `#/paths//Users/{UserId}/Items/{Id}/get(getUsersByUseridItemsById)/responses/401`.
+            ///
+            /// HTTP response code: `401 unauthorized`.
+            case unauthorized(Components.Responses._401)
+            /// Unauthorized. Client needs to authenticate.
+            ///
+            /// - Remark: Generated from `#/paths//Users/{UserId}/Items/{Id}/get(getUsersByUseridItemsById)/responses/401`.
+            ///
+            /// HTTP response code: `401 unauthorized`.
+            internal static var unauthorized: Self {
+                .unauthorized(.init())
+            }
+            /// The associated value of the enum case if `self` is `.unauthorized`.
+            ///
+            /// - Throws: An error if `self` is not `.unauthorized`.
+            /// - SeeAlso: `.unauthorized`.
+            internal var unauthorized: Components.Responses._401 {
+                get throws {
+                    switch self {
+                    case let .unauthorized(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "unauthorized",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// Forbidden. No permission for the reqested operation.
+            ///
+            /// - Remark: Generated from `#/paths//Users/{UserId}/Items/{Id}/get(getUsersByUseridItemsById)/responses/403`.
+            ///
+            /// HTTP response code: `403 forbidden`.
+            case forbidden(Components.Responses._403)
+            /// Forbidden. No permission for the reqested operation.
+            ///
+            /// - Remark: Generated from `#/paths//Users/{UserId}/Items/{Id}/get(getUsersByUseridItemsById)/responses/403`.
+            ///
+            /// HTTP response code: `403 forbidden`.
+            internal static var forbidden: Self {
+                .forbidden(.init())
+            }
+            /// The associated value of the enum case if `self` is `.forbidden`.
+            ///
+            /// - Throws: An error if `self` is not `.forbidden`.
+            /// - SeeAlso: `.forbidden`.
+            internal var forbidden: Components.Responses._403 {
+                get throws {
+                    switch self {
+                    case let .forbidden(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "forbidden",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// Resource not found or unavailable.
+            ///
+            /// - Remark: Generated from `#/paths//Users/{UserId}/Items/{Id}/get(getUsersByUseridItemsById)/responses/404`.
+            ///
+            /// HTTP response code: `404 notFound`.
+            case notFound(Components.Responses._404)
+            /// Resource not found or unavailable.
+            ///
+            /// - Remark: Generated from `#/paths//Users/{UserId}/Items/{Id}/get(getUsersByUseridItemsById)/responses/404`.
+            ///
+            /// HTTP response code: `404 notFound`.
+            internal static var notFound: Self {
+                .notFound(.init())
+            }
+            /// The associated value of the enum case if `self` is `.notFound`.
+            ///
+            /// - Throws: An error if `self` is not `.notFound`.
+            /// - SeeAlso: `.notFound`.
+            internal var notFound: Components.Responses._404 {
+                get throws {
+                    switch self {
+                    case let .notFound(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "notFound",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// Server error.
+            ///
+            /// - Remark: Generated from `#/paths//Users/{UserId}/Items/{Id}/get(getUsersByUseridItemsById)/responses/500`.
+            ///
+            /// HTTP response code: `500 internalServerError`.
+            case internalServerError(Components.Responses._500)
+            /// Server error.
+            ///
+            /// - Remark: Generated from `#/paths//Users/{UserId}/Items/{Id}/get(getUsersByUseridItemsById)/responses/500`.
             ///
             /// HTTP response code: `500 internalServerError`.
             internal static var internalServerError: Self {

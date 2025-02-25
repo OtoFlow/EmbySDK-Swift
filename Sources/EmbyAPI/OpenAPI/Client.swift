@@ -4190,6 +4190,90 @@ internal struct Client: APIProtocol {
             }
         )
     }
+    /// Gets an item from a user's library
+    ///
+    /// Requires authentication as user
+    ///
+    /// - Remark: HTTP `GET /Users/{UserId}/Items/{Id}`.
+    /// - Remark: Generated from `#/paths//Users/{UserId}/Items/{Id}/get(getUsersByUseridItemsById)`.
+    internal func getUsersByUseridItemsById(_ input: Operations.getUsersByUseridItemsById.Input) async throws -> Operations.getUsersByUseridItemsById.Output {
+        try await client.send(
+            input: input,
+            forOperation: Operations.getUsersByUseridItemsById.id,
+            serializer: { input in
+                let path = try converter.renderedPath(
+                    template: "/Users/{}/Items/{}",
+                    parameters: [
+                        input.path.UserId,
+                        input.path.Id
+                    ]
+                )
+                var request: HTTPTypes.HTTPRequest = .init(
+                    soar_path: path,
+                    method: .get
+                )
+                suppressMutabilityWarning(&request)
+                converter.setAcceptHeader(
+                    in: &request.headerFields,
+                    contentTypes: input.headers.accept
+                )
+                return (request, nil)
+            },
+            deserializer: { response, responseBody in
+                switch response.status.code {
+                case 200:
+                    let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
+                    let body: Operations.getUsersByUseridItemsById.Output.Ok.Body
+                    let chosenContentType = try converter.bestContentType(
+                        received: contentType,
+                        options: [
+                            "application/json",
+                            "application/xml"
+                        ]
+                    )
+                    switch chosenContentType {
+                    case "application/json":
+                        body = try await converter.getResponseBodyAsJSON(
+                            Components.Schemas.BaseItemDto.self,
+                            from: responseBody,
+                            transforming: { value in
+                                .json(value)
+                            }
+                        )
+                    case "application/xml":
+                        body = try converter.getResponseBodyAsBinary(
+                            OpenAPIRuntime.HTTPBody.self,
+                            from: responseBody,
+                            transforming: { value in
+                                .xml(value)
+                            }
+                        )
+                    default:
+                        preconditionFailure("bestContentType chose an invalid content type.")
+                    }
+                    return .ok(.init(body: body))
+                case 400:
+                    return .badRequest(.init())
+                case 401:
+                    return .unauthorized(.init())
+                case 403:
+                    return .forbidden(.init())
+                case 404:
+                    return .notFound(.init())
+                case 500:
+                    return .internalServerError(.init())
+                default:
+                    return .undocumented(
+                        statusCode: response.status.code,
+                        .init(
+                            headerFields: response.headerFields,
+                            body: responseBody
+                        )
+                    )
+                }
+            }
+        )
+    }
     /// Marks an item as a favorite
     ///
     /// Requires authentication as user

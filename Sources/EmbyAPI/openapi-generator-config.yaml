@@ -13,6 +13,7 @@ filter:
     # UserService
     - postUsersAuthenticatebyname
     # UserLibraryService
+    - getUsersByUseridItemsById
     - postUsersByUseridFavoriteitemsById
     - deleteUsersByUseridFavoriteitemsById
     # ArtistsService
